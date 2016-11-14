@@ -10,7 +10,7 @@ public class Test1 {
         // 1. 创建原始类
         Original original = new Original("egg");
         
-        // 2.创建备忘录
+        // 2.创建储存备忘录
         Storage storage = new Storage(original.createMemento());
         
         // 3.修改原始类的状态 
