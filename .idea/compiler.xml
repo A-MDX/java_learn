@@ -19,15 +19,19 @@
       </profile>
       <profile default="false" name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="annotation" />
         <module name="design_model" />
+        <module name="socket" />
         <module name="springboot" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="annotation" target="1.5" />
       <module name="design_model" target="1.5" />
+      <module name="socket" target="1.5" />
       <module name="springboot" target="1.8" />
     </bytecodeTargetLevel>
   </component>

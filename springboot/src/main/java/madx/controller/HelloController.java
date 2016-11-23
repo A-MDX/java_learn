@@ -3,7 +3,6 @@ package madx.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +16,7 @@ import java.util.Map;
 public class HelloController {
     
     @RequestMapping
-    public String hello(HttpServletRequest request){
-        Map<String,String[]> map = request.getParameterMap();
+    public String hello(){
         
         return "Hello,String boot!";
     }

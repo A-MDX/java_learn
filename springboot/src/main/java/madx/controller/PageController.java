@@ -32,8 +32,8 @@ public class PageController {
         
         model.put("time", new Date());
         model.put("message", this.hello);
-        System.out.println("123");
-        return "index";
+        System.out.println(model);
+        return "redirect:index.html";
     }
 
     @RequestMapping("/page0")
