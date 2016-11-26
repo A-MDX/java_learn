@@ -569,7 +569,7 @@ import java.util.ArrayList;
 			 //password
 			 "9295" ,
 			 //tableName,
-			 "user",
+			 "line_day_old",
 			// + ";tm_account;tt_account_change;ti_chanj_callback_status;tm_account_type;ti_chanj_get_status",
 			 //tableMatchPattern
 			 "false",

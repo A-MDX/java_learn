@@ -2,11 +2,9 @@ package madx.service.impl;
 
 import madx.dao.JavaFilePathDao;
 import madx.dao.JavaLineNumDao;
+import madx.dao.LineJdbcDao;
 import madx.dao.UserDao;
-import madx.entity.JavaFilePathPO;
-import madx.entity.JavaLineNumPO;
-import madx.entity.Result;
-import madx.entity.UserPO;
+import madx.entity.*;
 import madx.service.CountJavaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +29,9 @@ public class CountJavaServiceImpl implements CountJavaService{
     
     @Autowired
     private UserDao userDao;
+    
+    @Autowired
+    private LineJdbcDao lineJdbcDao;
     
     @Override
     @Transactional
@@ -130,12 +131,40 @@ public class CountJavaServiceImpl implements CountJavaService{
     }
 
     @Override
-    public Result queryCountList(Integer userid) {
-        return null;
+    public Result queryCountList(Map<String,Object> param) {
+        Result result = new Result();
+        UserPO user = userDao.findOne(Integer.valueOf(param.get("userid")+""));
+        if (user == null){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("user id is not exist!");
+            return result;
+        }
+        List<Map<String,Object>> list = lineJdbcDao.queryLineList(param,false);
+        Integer size = (Integer) list.get(0).get("count");
+        int totleSize = size == null ? 0 : size;
+        
+        PageQueryPO pageQueryPO = new PageQueryPO((Integer) param.get("pageSize"),totleSize); 
+        int pageNumber = (int) param.get("pageNumber");
+        if (pageNumber -1 < 0){
+            pageNumber = 0;
+        }else{
+            pageNumber--;
+        }
+        pageQueryPO.setPageNumber(pageNumber+1);
+        
+        param.put("pageNumber",pageNumber);
+        
+        pageQueryPO.setContent(lineJdbcDao.queryLineList(param,true));
+        
+        result.setMsg("ok");
+        result.setData(pageQueryPO);
+        result.setCode(Result.RESULT_SUCCESS);
+        
+        return result;
     }
 
     @Override
-    public Result queryPathList(Integer userid) {
+    public Result queryPathList(Map<String,Object> param) {
         return null;
     }
 
