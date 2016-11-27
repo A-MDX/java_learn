@@ -133,6 +133,14 @@ public class CountJavaServiceImpl implements CountJavaService{
     @Override
     public Result queryCountList(Map<String,Object> param) {
         Result result = new Result();
+        
+        Object userid = param.get("userid");
+        if (userid == null || "".equals(userid.toString())){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("param userid is null!");
+            return result;
+        }
+        
         UserPO user = userDao.findOne(Integer.valueOf(param.get("userid")+""));
         if (user == null){
             result.setCode(Result.RESULT_PARAME_ERRROR);
@@ -140,8 +148,8 @@ public class CountJavaServiceImpl implements CountJavaService{
             return result;
         }
         List<Map<String,Object>> list = lineJdbcDao.queryLineList(param,false);
-        Integer size = (Integer) list.get(0).get("count");
-        int totleSize = size == null ? 0 : size;
+        Long size = (Long) list.get(0).get("count");
+        int totleSize = size == null ? 0 : Integer.valueOf(size+"");
         
         PageQueryPO pageQueryPO = new PageQueryPO((Integer) param.get("pageSize"),totleSize); 
         int pageNumber = (int) param.get("pageNumber");

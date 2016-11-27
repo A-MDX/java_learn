@@ -22,7 +22,7 @@ public class LineController {
     @Autowired
     private CountJavaService countJavaService;
     
-    @RequestMapping(value = "/line/list",method = RequestMethod.POST)
+    @RequestMapping(value = "/line/list",method = {RequestMethod.POST,RequestMethod.GET})
     public Result getLineList(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
                               @RequestParam(value = "page.size", defaultValue = "20") int pageSize,
                               ServletRequest request){

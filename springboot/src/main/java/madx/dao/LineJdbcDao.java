@@ -38,7 +38,7 @@ public class LineJdbcDao {
                 "  java_line_num l \n" +
                 "  LEFT JOIN USER u \n" +
                 "    ON l.`creator` = u.`id` \n" +
-                "WHERE l.`creator` = "+param.get("userid"));
+                "WHERE l.`creator` = "+param.get("userid")+"\n");
         
         if (isPage){
             sql.append("ORDER BY l.`creation_time` DESC \n" +
