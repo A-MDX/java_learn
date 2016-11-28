@@ -34,6 +34,10 @@ public class LineController {
         
         return countJavaService.queryCountList(param);
     }
-    
+
+    @RequestMapping(value = "/line/count",method = {RequestMethod.POST,RequestMethod.GET})
+    public Result getLineList(ServletRequest request){
+        return countJavaService.count(request);
+    }
     
 }

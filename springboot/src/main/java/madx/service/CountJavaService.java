@@ -2,6 +2,7 @@ package madx.service;
 
 import madx.entity.Result;
 
+import javax.servlet.ServletRequest;
 import java.util.Map;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Map;
  */
 public interface CountJavaService {
     
-    Result count(Integer userid);
+    Result count(ServletRequest request);
     Result addPath(String path);
     Result removePath(Integer id);
     Result queryCountList(Map<String,Object> param);

@@ -9,7 +9,9 @@ import madx.service.CountJavaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import javax.servlet.ServletRequest;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -35,9 +37,19 @@ public class CountJavaServiceImpl implements CountJavaService{
     
     @Override
     @Transactional
-    public Result count(Integer userid) {
+    public Result count(ServletRequest request) {
         Result result = new Result();
+        
+        String userid_str = request.getParameter("userid");
+        
+        if (StringUtils.isEmpty(userid_str)){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("没传 userid 这个参数");
+            return result;
+        }
 
+        Integer userid = Integer.valueOf(userid_str); 
+        
         UserPO userPO = userDao.findOne(userid);
         
         // 取最近的一条
