@@ -3,7 +3,10 @@ package madx.controller;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletRequest;
 import java.util.Date;
 import java.util.Map;
 
@@ -30,6 +33,17 @@ public class PageController {
         model.put("message", this.hello);
         System.out.println(model);
         return "redirect:index.html";
+    }
+    
+    @RequestMapping(value = "/test",method = {RequestMethod.POST,RequestMethod.GET})
+    public @ResponseBody String test(ServletRequest request){
+        System.out.println("request --> "+request.getParameterMap());
+        
+        System.out.println(request.getParameterNames());
+        System.out.println("request.getContentType(); -> " +request.getContentType());
+        System.out.println("requ  "+request);
+        System.out.println(request.getParameter("startPhone"));
+        return "123456";
     }
 
     
