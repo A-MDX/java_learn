@@ -185,6 +185,24 @@ public class CountJavaServiceImpl implements CountJavaService{
 
     @Override
     public Result queryPathList(Map<String,Object> param) {
+        Result result = new Result();
+
+        Object userid = param.get("userid");
+        if (userid == null || "".equals(userid.toString())){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("param userid is null!");
+            return result;
+        }
+
+        UserPO user = userDao.findOne(Integer.valueOf(param.get("userid")+""));
+        if (user == null){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("user id is not exist!");
+            return result;
+        }
+        
+        
+        
         return null;
     }
 

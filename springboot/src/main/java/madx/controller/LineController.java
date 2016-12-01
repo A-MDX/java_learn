@@ -40,4 +40,15 @@ public class LineController {
         return countJavaService.count(request);
     }
     
+    @RequestMapping(value = "/path/list",method = {RequestMethod.POST,RequestMethod.GET})
+    public Result getFilePath(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
+                              @RequestParam(value = "page.size", defaultValue = "20") int pageSize,
+                              ServletRequest request){
+        Map<String,Object> param = new HashMap<>();
+        param.put("userid",request.getParameter("userid"));
+        param.put("pageNumber",pageNumber);
+        param.put("pageSize",pageSize);
+        return countJavaService.queryPathList(param);
+    }
+    
 }
