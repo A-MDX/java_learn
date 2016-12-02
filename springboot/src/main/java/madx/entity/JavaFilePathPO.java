@@ -42,6 +42,17 @@ public class JavaFilePathPO implements Serializable{
 
 	@Column(name="modifier")
 	private Integer modifier;
+	
+	@Column(name = "remark")
+	private String remark;
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
 	public void setId(Integer id){
 		this.id = id;

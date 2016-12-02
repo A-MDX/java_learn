@@ -1,10 +1,15 @@
 package madx.service.impl;
 
+import madx.common.Common;
+import madx.common.JdbcCommonEnum;
 import madx.dao.JavaFilePathDao;
 import madx.dao.JavaLineNumDao;
-import madx.dao.LineJdbcDao;
 import madx.dao.UserDao;
-import madx.entity.*;
+import madx.entity.JavaFilePathPO;
+import madx.entity.JavaLineNumPO;
+import madx.entity.Result;
+import madx.entity.UserPO;
+import madx.service.CommonJdbcService;
 import madx.service.CountJavaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +38,7 @@ public class CountJavaServiceImpl implements CountJavaService{
     private UserDao userDao;
     
     @Autowired
-    private LineJdbcDao lineJdbcDao;
+    private CommonJdbcService commonJdbcService;
     
     @Override
     @Transactional
@@ -61,8 +66,8 @@ public class CountJavaServiceImpl implements CountJavaService{
         List<JavaFilePathPO> pathPOs = pathDao.findByuserId(userid);
         for (JavaFilePathPO pathPO : pathPOs){
             Map<String,Integer> map = countNum(pathPO);
-            // 如果是 9 ，代表大文件目录，可以统计进总数据中
-            if (pathPO.getIsBigPath() == 9){
+            // 如果是  ，代表大文件目录，可以统计进总数据中
+            if (pathPO.getIsBigPath() == Common.JAVA_FILE_PATH_BIG){
                 java_file += map.get("java_file");
                 java_line += map.get("java_line");
             }
@@ -133,8 +138,26 @@ public class CountJavaServiceImpl implements CountJavaService{
     }
     
     @Override
-    public Result addPath(String path) {
-        return null;
+    public Result addPath(ServletRequest request) {
+        Result result = new Result();
+
+        String userid_str = request.getParameter("userid");
+
+        if (StringUtils.isEmpty(userid_str)){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("没传 userid 这个参数");
+            return result;
+        }
+        
+        String path = request.getParameter("path");
+
+        Integer userid = Integer.valueOf(userid_str);
+
+        UserPO userPO = userDao.findOne(userid);
+        
+        //TODO wait for your web...
+        
+        return result;
     }
 
     @Override
@@ -159,25 +182,9 @@ public class CountJavaServiceImpl implements CountJavaService{
             result.setMsg("user id is not exist!");
             return result;
         }
-        List<Map<String,Object>> list = lineJdbcDao.queryLineList(param,false);
-        Long size = (Long) list.get(0).get("count");
-        int totleSize = size == null ? 0 : Integer.valueOf(size+"");
-        
-        PageQueryPO pageQueryPO = new PageQueryPO((Integer) param.get("pageSize"),totleSize); 
-        int pageNumber = (int) param.get("pageNumber");
-        if (pageNumber -1 < 0){
-            pageNumber = 0;
-        }else{
-            pageNumber--;
-        }
-        pageQueryPO.setPageNumber(pageNumber+1);
-        
-        param.put("pageNumber",pageNumber);
-        
-        pageQueryPO.setContent(lineJdbcDao.queryLineList(param,true));
         
         result.setMsg("ok");
-        result.setData(pageQueryPO);
+        result.setData(commonJdbcService.query(JdbcCommonEnum.JAVA_LINE_LIST,param));
         result.setCode(Result.RESULT_SUCCESS);
         
         return result;
@@ -200,10 +207,12 @@ public class CountJavaServiceImpl implements CountJavaService{
             result.setMsg("user id is not exist!");
             return result;
         }
+
+        result.setMsg("ok");
+        result.setData(commonJdbcService.query(JdbcCommonEnum.JAVA_FILE_LIST,param));
+        result.setCode(Result.RESULT_SUCCESS);
         
-        
-        
-        return null;
+        return result;
     }
 
     // 统计文件的行数

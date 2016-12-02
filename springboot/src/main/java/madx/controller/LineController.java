@@ -51,4 +51,9 @@ public class LineController {
         return countJavaService.queryPathList(param);
     }
     
+    @RequestMapping(value = "path/add",method = {RequestMethod.POST,RequestMethod.GET})
+    public Result addFilePath(ServletRequest request){
+        return countJavaService.addPath(request);
+    }
+    
 }

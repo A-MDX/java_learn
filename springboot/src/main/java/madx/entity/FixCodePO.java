@@ -1,6 +1,7 @@
 package madx.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
@@ -13,6 +14,8 @@ import java.util.Date;
 public class FixCodePO implements Serializable{ 
 
 private static final long serialVersionUID = 1L;
+
+	@Id
 	@Column(name="code")
 	private Integer code;
 

@@ -11,7 +11,7 @@ import java.util.Map;
 public interface CountJavaService {
     
     Result count(ServletRequest request);
-    Result addPath(String path);
+    Result addPath(ServletRequest request);
     Result removePath(Integer id);
     Result queryCountList(Map<String,Object> param);
     Result queryPathList(Map<String,Object> param);

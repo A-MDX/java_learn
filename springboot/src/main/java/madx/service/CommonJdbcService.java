@@ -24,8 +24,7 @@ public class CommonJdbcService {
             case JAVA_LINE_LIST:
                 return lineJdbcDao.queryLineList(param,isPage);
             case JAVA_FILE_LIST:
-                //TODO ...
-                break;
+                return lineJdbcDao.queryPathList(param,isPage);
         }
         return null;
     }
