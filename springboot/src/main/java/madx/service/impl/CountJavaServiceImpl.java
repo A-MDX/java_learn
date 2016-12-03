@@ -11,6 +11,8 @@ import madx.entity.Result;
 import madx.entity.UserPO;
 import madx.service.CommonJdbcService;
 import madx.service.CountJavaService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,8 @@ import java.util.*;
  */
 @Service
 public class CountJavaServiceImpl implements CountJavaService{
+    
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     
     @Autowired
     private JavaFilePathDao pathDao;
@@ -103,6 +107,10 @@ public class CountJavaServiceImpl implements CountJavaService{
             numDao.save(newNumPo);
             userDao.save(userPO);
         }
+        
+        logger.error("你妹啊。");
+        logger.info("hhhhhhh");
+        logger.debug("debug....");
         
         result.setData(map);
         result.setCode(Result.RESULT_SUCCESS);
@@ -226,6 +234,7 @@ public class CountJavaServiceImpl implements CountJavaService{
             }
         } catch (IOException e) {
             e.printStackTrace();
+            logger.error("读取文件出错",e);
             throw e;
         }finally {
             reader.close();
