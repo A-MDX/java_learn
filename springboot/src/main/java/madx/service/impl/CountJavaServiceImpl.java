@@ -115,6 +115,7 @@ public class CountJavaServiceImpl implements CountJavaService{
         result.setData(map);
         result.setCode(Result.RESULT_SUCCESS);
         result.setMsg("ok");
+
         return result;
     }
 
@@ -219,7 +220,12 @@ public class CountJavaServiceImpl implements CountJavaService{
         result.setMsg("ok");
         result.setData(commonJdbcService.query(JdbcCommonEnum.JAVA_FILE_LIST,param));
         result.setCode(Result.RESULT_SUCCESS);
-        
+
+        System.out.println(" ---------------********************----------------");
+        System.out.println("result --> "+result);
+        System.out.println(" ---------------********************----------------");
+//        System.out.println("--**--**--*-*-*-*-*-*");
+
         return result;
     }
 

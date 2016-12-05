@@ -13,15 +13,8 @@ var load = function(page){
             console.log(data);
             if (data.code == result.success){
                 data = data.data;
-                $('.pagination').pagination({
-                    jumppage : false,
-                    pageSize : false,
-                    totalPages : data.totalPageSize,
-                    currentPage : data.pageNumber,
-                    page : function(page) {
-                        load(page);
-                    }
-                });
+                
+                
                 data = data.content;
                 for(var i =0;i<data.length;i++){
                     var str = '<tr>';
