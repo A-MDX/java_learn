@@ -35,14 +35,16 @@ public class CommonJdbcService {
         
         Long size = (Long) list.get(0).get("count");
         int totleSize = size == null ? 0 : Integer.valueOf(size+"");
+        Integer pageSize = (Integer) param.get("pageSize");
         PageQueryPO pageQueryPO = new PageQueryPO((Integer) param.get("pageSize"),totleSize);
         int pageNumber = (int) param.get("pageNumber");
+        
+        pageQueryPO.setPageNumber(pageNumber);
         if (pageNumber -1 < 0){
             pageNumber = 0;
         }else{
-            pageNumber--;
+            pageNumber = (pageNumber-1)*pageSize;
         }
-        pageQueryPO.setPageNumber(pageNumber+1);
 
         param.put("pageNumber",pageNumber);
 
