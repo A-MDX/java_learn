@@ -56,3 +56,5 @@ var load = function(page){
 }
 
 load(1);
+
+initTime();

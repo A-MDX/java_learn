@@ -210,7 +210,7 @@ public class CountJavaServiceImpl implements CountJavaService{
             return result;
         }
 
-        UserPO user = userDao.findOne(Integer.valueOf(param.get("userid")+""));
+        UserPO user = userDao.findOne(Integer.valueOf(userid+""));
         if (user == null){
             result.setCode(Result.RESULT_PARAME_ERRROR);
             result.setMsg("user id is not exist!");

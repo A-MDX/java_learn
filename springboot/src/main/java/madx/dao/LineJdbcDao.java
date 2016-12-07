@@ -1,9 +1,12 @@
 package madx.dao;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +20,10 @@ public class LineJdbcDao {
     private JdbcTemplate jdbcTemplate;
     
     public List<Map<String,Object>> queryLineList(Map<String,Object> param,boolean isPage){
+        
+        List<Object> objList = new ArrayList<>();
+        List<Integer> intList = new ArrayList<>();
+        
         StringBuilder sql = new StringBuilder("SELECT\n");
         if (isPage){
             sql.append("  l.`creator` creator_id,\n" +
@@ -39,15 +46,72 @@ public class LineJdbcDao {
                 "  java_line_num l \n" +
                 "  LEFT JOIN USER u \n" +
                 "    ON l.`creator` = u.`id` \n" +
-                "WHERE l.`creator` = "+param.get("userid")+"\n");
+                "WHERE 1 = 1 \n");
+        
+        // user id 
+        Object id = param.get("userid");
+        if (id != null && StringUtils.isNotBlank(id.toString())){
+            sql.append("  AND l.`creator` = ? \n");
+            intList.add(Types.INTEGER);
+            objList.add(id);
+        }
+        
+        // line_than_provious >=
+        Object line_than_big = param.get("line_than_big");
+        if (line_than_big != null && StringUtils.isNotBlank(line_than_big.toString())){
+            sql.append("  AND l.`line_than_provious` >= ? \n");
+            intList.add(Types.INTEGER);
+            objList.add(line_than_big);
+        }
+        
+        // line_than_provious <=
+        Object line_than_small = param.get("line_than_small");
+        if (line_than_small != null && StringUtils.isNotBlank(line_than_small.toString())){
+            sql.append("  AND l.`line_than_provious` <= ? \n");
+            intList.add(Types.INTEGER);
+            objList.add(line_than_small);
+        }
+        
+        // creation_time >=
+        Object startTime = param.get("startTime");
+        if (startTime != null && StringUtils.isNotBlank(startTime.toString())){
+            sql.append("  AND l.`creation_time` >= ? \n");
+            intList.add(Types.VARCHAR);
+            objList.add(startTime);
+        }
+        
+        // creation_time <=
+        if (isNotNull(param,"endTime",objList)){
+            sql.append("  AND l.`creation_time` <= ? \n");
+            intList.add(Types.VARCHAR);
+        }
         
         if (isPage){
             sql.append("ORDER BY l.`creation_time` DESC \n" +
-                    "LIMIT "+param.get("pageNumber")+", "+param.get("pageSize"));
+                    "LIMIT ?, ?");
+            intList.add(Types.INTEGER);
+            objList.add(param.get("pageNumber"));
+            intList.add(Types.INTEGER);
+            objList.add(param.get("pageSize"));
         }
         System.out.println("LineJdbcDao -> queryLineList -> \n"+sql);
+        // TODO ...
         return jdbcTemplate.queryForList(sql.toString());
         
+    }
+    
+    public static int[] convertIntArr(List<Integer> intList){
+        //TODO for list -> array
+        return null;
+    }
+    
+    public static boolean isNotNull(Map<String,Object> param,String colum,List<Object> objList){
+        Object obj = param.get(colum);
+        if (obj != null && StringUtils.isNotBlank(obj.toString())){
+            objList.add(obj);
+            return true;
+        }
+        return false;
     }
     
     public List<Map<String,Object>> queryPathList(Map<String,Object> param,boolean isPage){
