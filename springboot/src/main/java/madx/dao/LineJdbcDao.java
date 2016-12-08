@@ -95,14 +95,18 @@ public class LineJdbcDao {
             objList.add(param.get("pageSize"));
         }
         System.out.println("LineJdbcDao -> queryLineList -> \n"+sql);
-        // TODO ...
-        return jdbcTemplate.queryForList(sql.toString());
+        
+        return jdbcTemplate.queryForList(sql.toString(),objList.toArray(),convertIntArr(intList));
         
     }
     
     public static int[] convertIntArr(List<Integer> intList){
-        //TODO for list -> array
-        return null;
+        int size = intList.size();
+        int[] arr = new int[size];
+        for (int i = 0; i < size;i++){
+            arr[i] = intList.get(i);
+        }
+        return arr;
     }
     
     public static boolean isNotNull(Map<String,Object> param,String colum,List<Object> objList){

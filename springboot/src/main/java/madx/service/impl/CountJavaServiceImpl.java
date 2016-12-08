@@ -180,17 +180,16 @@ public class CountJavaServiceImpl implements CountJavaService{
         
         Object userid = param.get("userid");
         if (userid == null || "".equals(userid.toString())){
-            result.setCode(Result.RESULT_PARAME_ERRROR);
-            result.setMsg("param userid is null!");
-            return result;
+            // 全查
+        }else {
+            UserPO user = userDao.findOne(Integer.valueOf(param.get("userid")+""));
+            if (user == null){
+                result.setCode(Result.RESULT_PARAME_ERRROR);
+                result.setMsg("user id is not exist!");
+                return result;
+            }
         }
         
-        UserPO user = userDao.findOne(Integer.valueOf(param.get("userid")+""));
-        if (user == null){
-            result.setCode(Result.RESULT_PARAME_ERRROR);
-            result.setMsg("user id is not exist!");
-            return result;
-        }
         
         result.setMsg("ok");
         result.setData(commonJdbcService.query(JdbcCommonEnum.JAVA_LINE_LIST,param));

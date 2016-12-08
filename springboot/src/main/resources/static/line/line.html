@@ -6,6 +6,7 @@
     <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="../js/jquery-1.11.2.js"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link href="../js/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
     
     <script src="../js/laydate/laydate.js"></script>
     
@@ -52,12 +53,17 @@
             <div class="row clearfix">
                 
                 <div class="col-md-12 column" style="text-align: right;">
-                    <form class="form-search form-inline" action="#" id="form_search">
-                        <select class="input_search form-control" name="search_orderStatus" id="sendStatus"><option value="">  user  </option></select>&nbsp;
-                        <input type="text" class="input_search form-control" name="search_startTime" id="start" placeholder="预约取车开始时间" onclick="laydate(start)">&nbsp;
-                        <input type="text" class="input_search form-control" name="search_endTime" id="end"  placeholder="预约取车结束时间" onclick="laydate(start)"/>&nbsp;
+                    <form class="form-search form-inline" onsubmit="return false;">
+                        <select class="input_search form-control" name="search_userid" id="sendStatus">
+                            <option value="">  user  </option>
+                            <option value="1">  马东旭  </option>
+                            <option value="2">  马大哈  </option>
+                        </select>&nbsp;
+                        <input type="text" class="input_search form-control" name="search_startTime" id="start" placeholder="起始时间" onclick="laydate(start)">&nbsp;
+                        <input type="text" class="input_search form-control" name="search_endTime" id="end"  placeholder="截至时间" onclick="laydate(start)"/>&nbsp;
                         <input type="text" name="search_line_than_big" class="input_search form-control" placeholder="新增行数大于">&nbsp;
                         <input type="text" name="search_line_than_small" class="input_search form-control" placeholder="新增行数小于">&nbsp;
+                        <!--<button class="btn btn-default" onclick="load(1)"  > test </button>-->
                         <button class="btn btn-default" onclick="load(1)" ><span class="fa fa-search">&nbsp;</span>查询</button>
                     </form>
                 </div>

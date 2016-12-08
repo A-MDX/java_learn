@@ -1,5 +1,6 @@
 package madx.controller;
 
+import madx.common.Common;
 import madx.entity.Result;
 import madx.service.CountJavaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,11 @@ public class LineController {
                               @RequestParam(value = "page.size", defaultValue = "20") int pageSize,
                               ServletRequest request){
 
-        Map<String,Object> param = new HashMap<>();
-        param.put("userid",request.getParameter("userid"));
+        Map<String,Object> param = Common.getParametersStartingWith(request,"search_");
         param.put("pageNumber",pageNumber);
         param.put("pageSize",pageSize);
+
+        System.out.println("param --> "+param);
         
         return countJavaService.queryCountList(param);
     }

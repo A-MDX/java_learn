@@ -4,9 +4,19 @@ var load = function(page){
         page = 1
     }
     
+    var json = {};
+    $('.form-search').find('.input_search').each(function(){
+        json[this.name] = $(this).val();
+    });
+    
+    json['page'] = page;
+    json['page.size'] = 2;
+    
+    // console.log('json --> '+json);
+    
     $.ajax({
         url:posturl.baseUrl+"line/line/list",
-        data:{'page':page,'userid':1,'page.size':2},
+        data:json,
         type:'post',
         dataType:'json',
         success:function (data) {
