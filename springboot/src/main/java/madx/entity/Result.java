@@ -13,6 +13,17 @@ public class Result {
     private String msg;
     private Object data;
 
+    /**
+     * 使用静态工厂方法，快速赋值与初始化
+     * @return
+     */
+    public static Result getInstance(){
+        Result result = new Result();
+        result.setCode(RESULT_SUCCESS);
+        result.setMsg("ok");
+        return result;
+    }
+    
     @Override
     public String toString() {
         return "Result{" +

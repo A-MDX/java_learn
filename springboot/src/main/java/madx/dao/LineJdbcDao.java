@@ -1,5 +1,6 @@
 package madx.dao;
 
+import madx.common.Common;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -81,7 +82,7 @@ public class LineJdbcDao {
         }
         
         // creation_time <=
-        if (isNotNull(param,"endTime",objList)){
+        if (Common.isNotNull(param,"endTime",objList)){
             sql.append("  AND l.`creation_time` <= ? \n");
             intList.add(Types.VARCHAR);
         }
@@ -96,46 +97,38 @@ public class LineJdbcDao {
         }
         System.out.println("LineJdbcDao -> queryLineList -> \n"+sql);
         
-        return jdbcTemplate.queryForList(sql.toString(),objList.toArray(),convertIntArr(intList));
+        return jdbcTemplate.queryForList(sql.toString(),objList.toArray(), Common.convertIntArr(intList));
         
     }
     
-    public static int[] convertIntArr(List<Integer> intList){
-        int size = intList.size();
-        int[] arr = new int[size];
-        for (int i = 0; i < size;i++){
-            arr[i] = intList.get(i);
-        }
-        return arr;
-    }
-    
-    public static boolean isNotNull(Map<String,Object> param,String colum,List<Object> objList){
-        Object obj = param.get(colum);
-        if (obj != null && StringUtils.isNotBlank(obj.toString())){
-            objList.add(obj);
-            return true;
-        }
-        return false;
-    }
     
     public List<Map<String,Object>> queryPathList(Map<String,Object> param,boolean isPage){
+
+        List<Object> objList = new ArrayList<>();
+        List<Integer> intList = new ArrayList<>();
+        
         StringBuilder sql = new StringBuilder("SELECT\n");
         if (isPage){
-            sql.append("f.`path`,\n" +
+            sql.append("  f.`path`,\n" +
                     "  f.`id`,\n" +
                     "  fc.`code_name` is_big_path,\n" +
                     "  f.`modify_time`,\n" +
                     "  f.`now_line`,\n" +
                     "  f.`now_num`,\n" +
+                    "  DATE_FORMAT(\n" +
+                    "    f.`modify_time`,\n" +
+                    "    '%Y-%m-%d %H:%i:%s'\n" +
+                    "  ) modify_time,\n" +
                     "  f.`modifier`,\n" +
-                    "  f.`modify_time`,\n" +
                     "  u.`name` user,\n" +
                     "  DATE_FORMAT(\n" +
                     "    f.`creation_time`,\n" +
                     "    '%Y-%m-%d %H:%i:%s'\n" +
                     "  ) creation_time,\n" +
                     "  u1.`name` creator,\n" +
-                    "  f.remark \n ");
+                    "  f.remark,\n" +
+                    "  f.`is_active`,\n" +
+                    "  fc1.`code_name` is_active_str \n");
         }else {
             sql.append("  COUNT(1) count\n");
         }
@@ -148,16 +141,34 @@ public class LineJdbcDao {
                 "    ON fc.`code` = f.`is_big_path` \n" +
                 "  LEFT JOIN USER u1 \n" +
                 "    ON f.`creator` = u1.`id` \n" +
-                "WHERE f.`user_id` = "+param.get("userid")+"\n");
+                "  LEFT JOIN fix_code fc1 \n" +
+                "    ON fc1.`code` = f.`is_active` \n" +
+                "WHERE 1 = 1 \n");
+
+        // user id 
+        if (Common.isNotNull(param,"userid",objList)){
+            sql.append("  AND f.`user_id` = ? \n");
+            intList.add(Types.INTEGER);
+        }
+        
+        // is_big_path
+        if (Common.isNotNull(param,"is_big_path",objList)){
+            sql.append("  AND f.`is_big_path` = ? \n");
+            intList.add(Types.INTEGER);
+        }
         
         if (isPage){
             sql.append("ORDER BY f.`id` DESC \n" +
-                    "LIMIT "+param.get("pageNumber")+", "+param.get("pageSize"));
+                    "LIMIT ?, ?");
+            intList.add(Types.INTEGER);
+            objList.add(param.get("pageNumber"));
+            intList.add(Types.INTEGER);
+            objList.add(param.get("pageSize"));
         }
 
         System.out.println("queryPathList sql -> \n"+sql);
         
-        return jdbcTemplate.queryForList(sql.toString());
+        return jdbcTemplate.queryForList(sql.toString(),objList.toArray(),Common.convertIntArr(intList));
     }
     
 }

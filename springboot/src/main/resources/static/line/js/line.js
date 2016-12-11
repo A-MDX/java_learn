@@ -10,7 +10,7 @@ var load = function(page){
     });
     
     json['page'] = page;
-    json['page.size'] = 2;
+    json['page.size'] = 3;
     
     // console.log('json --> '+json);
     

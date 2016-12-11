@@ -69,6 +69,10 @@ public class CountJavaServiceImpl implements CountJavaService{
         
         List<JavaFilePathPO> pathPOs = pathDao.findByuserId(userid);
         for (JavaFilePathPO pathPO : pathPOs){
+            if (pathPO.getIsActive() == Common.STATUS_NO){
+                // 活跃状态为否，则不参与统计
+                continue;
+            }
             Map<String,Integer> map = countNum(pathPO);
             // 如果是  ，代表大文件目录，可以统计进总数据中
             if (pathPO.getIsBigPath() == Common.JAVA_FILE_PATH_BIG){
@@ -107,10 +111,6 @@ public class CountJavaServiceImpl implements CountJavaService{
             numDao.save(newNumPo);
             userDao.save(userPO);
         }
-        
-        logger.error("你妹啊。");
-        logger.info("hhhhhhh");
-        logger.debug("debug....");
         
         result.setData(map);
         result.setCode(Result.RESULT_SUCCESS);
@@ -204,26 +204,23 @@ public class CountJavaServiceImpl implements CountJavaService{
 
         Object userid = param.get("userid");
         if (userid == null || "".equals(userid.toString())){
-            result.setCode(Result.RESULT_PARAME_ERRROR);
-            result.setMsg("param userid is null!");
-            return result;
+            
+        }else {
+            UserPO user = userDao.findOne(Integer.valueOf(userid+""));
+            if (user == null){
+                result.setCode(Result.RESULT_PARAME_ERRROR);
+                result.setMsg("user id is not exist!");
+                return result;
+            }
+            
         }
 
-        UserPO user = userDao.findOne(Integer.valueOf(userid+""));
-        if (user == null){
-            result.setCode(Result.RESULT_PARAME_ERRROR);
-            result.setMsg("user id is not exist!");
-            return result;
-        }
 
         result.setMsg("ok");
         result.setData(commonJdbcService.query(JdbcCommonEnum.JAVA_FILE_LIST,param));
         result.setCode(Result.RESULT_SUCCESS);
 
-        System.out.println(" ---------------********************----------------");
-        System.out.println("result --> "+result);
-        System.out.println(" ---------------********************----------------");
-//        System.out.println("--**--**--*-*-*-*-*-*");
+        logger.info("result --> "+result);
 
         return result;
     }

@@ -7,7 +7,7 @@
     <groupId>com.madx.java</groupId>
     <artifactId>spring.boot</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>spring.learn</name>
     <description>Demo project for Spring Boot</description>
@@ -65,7 +65,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
+            <optional>true</optional> 
         </dependency>
 
 

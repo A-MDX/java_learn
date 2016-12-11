@@ -6,6 +6,7 @@
     <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="../js/jquery-1.11.2.js"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link href="../js/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
     
     <script src="../js/common.js"></script>
     <style>
@@ -35,124 +36,56 @@
     <div class="row clearfix">
         <div class="col-md-12 column">
             <h3>
-                java 文件统计模块
+                java 文件统计，路径添加
             </h3>
             <blockquote>
                 <p>
-                    这个应该是去年的时候，我就完成了java文件统计的小程序，到了今年的这个时候，我才有空把这个功能做成web服务的样子。
-                    一边复习，一边折腾吧。
-                </p> <small>a-mdx <cite>2016-12-02 15:40:13</cite></small>
+                    嗨，想想看，去年这个时候，我在干什么呢？自己那个时候，也再不停折腾自己的小程序吧，虽然没有
+                    知道特别多，但还是不停地尝试，每一个周六周天，选择在自习室里，一坐就是一天，不停折腾，不停地思考，
+                    偶然的话，还会写点心情，记一些感想。没有收入，没有尊严，没有骄傲，只有低下头，不停地学习。我还是向往着
+                    温暖的，不是吗。穿的随意，破烂，住的窝火，哎，我不会忘记那个时候，自己的委屈。
+                </p> <small>a-mdx <cite>2016-12-11 12:36:07</cite></small>
             </blockquote>
         </div>
     </div>
     <div class="row clearfix">
         <div class="col-md-12 column">
             <div class="row clearfix">
-                <div class="col-md-2 column">
+                <div class="col-md-12 column">
+                    <form class="form-search form-inline" onsubmit="return false;" style="text-align: right;">
+                        <select class="input_search form-control" name="search_userid" id="sendStatus">
+                            <option value="">  user  </option>
+                            <option value="1">  马东旭  </option>
+                            <option value="2">  马大哈  </option>
+                        </select>&nbsp;
+                        <select class="input_search form-control" name="search_is_big_path" id="is_big_path">
+                            <option value="">  是否为根路径  </option>
+                            
+                        </select>&nbsp;
+                        <button class="btn btn-default" onclick="load(1)" ><span class="fa fa-search">&nbsp;</span>查询</button>
+                    </form>
                 </div>
-                <div class="col-md-6 column">
-                </div>
-                <div class="col-md-4 column">
-                </div>
+                
             </div>
             <table class="table">
                 <thead>
                 <tr>
-                    <th>
-                        编号
-                    </th>
-                    <th>
-                        统计时间
-                    </th>
-                    <th>
-                        总文件数
-                    </th>
-                    <th>
-                        总行数
-                    </th>
-                    <th>
-                        较上次增加文件数
-                    </th>
-                    <th>
-                        较上次增加行数
-                    </th>
-                    <th>
-                        创建者
-                    </th>
+                    <th>编号</th>
+                    <th>用户</th>
+                    <th>路径地址</th>
+                    <th>根路径</th>
+                    <th>修改时间</th>
+                    <th>总文件数</th>
+                    <th>总行数</th>
+                    <th>创建时间</th>
+                    <th>是否激活</th>
+                    <th>备注</th>
+                    <th>操作</th>
                     
                 </tr>
                 </thead>
-                <tbody id ="java-line-list">
-                <tr>
-                    <td>
-                        1
-                    </td>
-                    <td>
-                        TB - Monthly
-                    </td>
-                    <td>
-                        01/04/2012
-                    </td>
-                    <td>
-                        Default
-                    </td>
-                </tr>
-                <tr class="success">
-                    <td>
-                        1
-                    </td>
-                    <td>
-                        TB - Monthly
-                    </td>
-                    <td>
-                        01/04/2012
-                    </td>
-                    <td>
-                        Approved
-                    </td>
-                </tr>
-                <tr class="error">
-                    <td>
-                        2
-                    </td>
-                    <td>
-                        TB - Monthly
-                    </td>
-                    <td>
-                        02/04/2012
-                    </td>
-                    <td>
-                        Declined
-                    </td>
-                </tr>
-                <tr class="warning">
-                    <td>
-                        3
-                    </td>
-                    <td>
-                        TB - Monthly
-                    </td>
-                    <td>
-                        03/04/2012
-                    </td>
-                    <td>
-                        Pending
-                    </td>
-                </tr>
-                <tr class="info">
-                    <td>
-                        4
-                    </td>
-                    <td>
-                        TB - Monthly
-                    </td>
-                    <td>
-                        04/04/2012
-                    </td>
-                    <td>
-                        Call in to confirm
-                    </td>
-                </tr>
+                <tbody id ="java-path-list">
+                
                 </tbody>
             </table>
             <div class="row clearfix">
@@ -161,27 +94,7 @@
                 <div class="col-md-6 column">
                     <!-- 分页区域  -->
                     <ul class="pagination">
-                        <li>
-                            <a href="#">Prev</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">1</a>
-                        </li>
-                        <li>
-                            <a href="#">2</a>
-                        </li>
-                        <li>
-                            <a href="#">3</a>
-                        </li>
-                        <li>
-                            <a href="#">4</a>
-                        </li>
-                        <li>
-                            <a href="#">5</a>
-                        </li>
-                        <li>
-                            <a href="#">Next</a>
-                        </li>
+                        
                     </ul>
                 </div>
                 <div class="col-md-4 column">
@@ -192,5 +105,5 @@
 </div>
 
 </body>
-<script type="text/javascript" src="js/line.js"></script>
+<script type="text/javascript" src="js/path.js"></script>
 </html>

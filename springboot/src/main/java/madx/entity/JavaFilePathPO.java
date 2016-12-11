@@ -45,6 +45,17 @@ public class JavaFilePathPO implements Serializable{
 	
 	@Column(name = "remark")
 	private String remark;
+	
+	@Column(name = "is_active")
+	private Integer isActive;
+
+	public Integer getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Integer isActive) {
+		this.isActive = isActive;
+	}
 
 	public String getRemark() {
 		return remark;
