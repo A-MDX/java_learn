@@ -1,9 +1,12 @@
 package madx.service.impl;
 
 import madx.dao.FixCodeDao;
+import madx.dao.UserDao;
 import madx.entity.FixCodePO;
 import madx.entity.Result;
 import madx.service.UtilService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +18,13 @@ import java.util.List;
 @Service
 public class UtilServiceImpl implements UtilService {
     
+    private final Logger logger = LoggerFactory.getLogger(UtilServiceImpl.class); 
+    
     @Autowired
     private FixCodeDao fixCodeDao;
+    
+    @Autowired
+    private UserDao userDao;
     
     @Override
     public Result queryFixCode(Integer codeType) {
@@ -39,5 +47,19 @@ public class UtilServiceImpl implements UtilService {
         result.setData(list);
         return result;
     }
-    
+
+    @Override
+    public Result queryUser() {
+        Result result = Result.getInstance();
+        try {
+            result.setData(userDao.queryUserName());
+        } catch (Exception e) {
+            logger.error("get user info error ",e);
+            e.printStackTrace();
+            result.setMsg("查询 user 信息失败");
+            result.setCode(Result.RESULT_ERROR);
+        }
+        return result;
+    }
+
 }

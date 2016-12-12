@@ -31,23 +31,6 @@
     
 })();
 
-/**  将一些通用 工具类方法，加上一些标记，使代码看着没那么乱。 **/
-(function () {
-    utilFunction = {};
-    
-    // 删除对象中的空值 
-    utilFunction.deleteNullStr = deleteNullStr;
-    // 查询 fixCode，然后初始化下拉选
-    utilFunction.initFixCodeSelect = initFixCodeSelect;
-    // 自定义分页。
-    utilFunction.pagination = pagination;
-    // bootstrap alert.
-    utilFunction.jInfo = jInfo;
-    // 时间选择器初始化
-    utilFunction.initTime = initTime;
-    
-})();
-
 /**
  * 删除对象中的空值
  * @param data
@@ -83,15 +66,48 @@ var initFixCodeSelect = function (codeType,id) {
 }
 
 /**
+ * 初始化 用户列表下拉选
+ * @param id 直接初始化到这个id上
+ */
+var initUserSelect = function (id) {
+    $.ajax({
+        url : posturl.baseUrl+'/util/user',
+        dataType : 'json',
+        type : 'get',
+        success : function (data) {
+            console.log(data);
+            if (data.code == result.success){
+                data = data.data;
+                for (var i=0;i<data.length;i++){
+                    $('#'+id).append("<option value='"+data[i][0]+"'>"+data[i][1]+"</option>")
+                }
+            }else{
+                jInfo(data.msg+"。初始化 用户列表下拉选失败。");
+            }
+        }
+    });
+    $('#'+id).append()
+}
+
+/**
  * bootstrap alert.
  * @param msg
  */
 var jInfo = function (msg) {
-    $('.container').append('<div class="alert alert-danger alert-dismissable">' +
+    $('.breadcrumb').append('<div class="jInfo-alert"><br /><div class="alert alert-danger alert-dismissable">' +
         '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times;</button>' +
         ' <strong>错误！</strong> '+msg+'。' +
-        '</div>');
+        '</div></div>');
+    // 5s 后隐藏
     
+    setTimeout("hideInfo()",5000);
+}
+
+/**
+ * 隐藏警报框
+ */
+var hideInfo = function () {
+    $('.jInfo-alert').hide(2000);
 }
 
 /**

@@ -147,10 +147,11 @@ public class CountJavaServiceImpl implements CountJavaService{
     }
     
     @Override
-    public Result addPath(ServletRequest request) {
-        Result result = new Result();
+    @Transactional
+    public Result addPath(Map<String,Object> param) {
+        Result result = Result.getInstance();
 
-        String userid_str = request.getParameter("userid");
+        String userid_str = param.get("userid").toString();
 
         if (StringUtils.isEmpty(userid_str)){
             result.setCode(Result.RESULT_PARAME_ERRROR);
@@ -158,14 +159,35 @@ public class CountJavaServiceImpl implements CountJavaService{
             return result;
         }
         
-        String path = request.getParameter("path");
+        String path = param.get("path").toString();
 
         Integer userid = Integer.valueOf(userid_str);
+        
+        Integer is_big_path = Integer.valueOf(param.get("is_big_path").toString());
 
         UserPO userPO = userDao.findOne(userid);
+        if (userPO == null){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("没查到当前用户");
+            return result;
+        }
         
-        //TODO wait for your web...
+        JavaFilePathPO pathPO = new JavaFilePathPO();
+        pathPO.setUserId(userid);
+        pathPO.setIsBigPath(is_big_path);
+        pathPO.setPath(path);
+        pathPO.setCreationTime(new Date());
+        pathPO.setIsActive(Common.STATUS_YES);
+        pathPO.setCreator(userid);
         
+        Object remark = param.get("remark");
+        if (remark != null && !StringUtils.isEmpty(remark.toString())){
+            pathPO.setRemark(remark.toString());
+        }
+        
+        pathPO = pathDao.save(pathPO);
+        
+        result.setData(pathPO);
         return result;
     }
 

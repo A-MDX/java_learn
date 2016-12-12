@@ -25,7 +25,7 @@ var load = function(page){
                 data = data.data;
 
                 // 分页系统
-                utilFunction.pagination(data);
+                pagination(data);
 
                 // 清空
                 $('#java-path-list').empty();
@@ -34,7 +34,7 @@ var load = function(page){
                 for(var i =0;i<data.length;i++){
                     
                     // 去除 null... 
-                    utilFunction.deleteNullStr(data[i]);
+                    deleteNullStr(data[i]);
                     
                     var str = '';
                     switch ((i+1) % 3){
@@ -81,16 +81,84 @@ var load = function(page){
 
         },
         error:function(e){
-            utilFunction.jInfo('出错了 load 出错。')
+            jInfo('出错了 load 出错。')
             console.log(e);
         }
     });
 }
 
+// add_new_path
+$(function () {
+   $('#add_new_path').dialog({
+       autoOpen: false,
+       show: {
+           effect: "blind",
+           duration: 500
+       },
+       hide: {
+           effect: "explode",
+           duration: 500
+       },
+       height: 350,
+       width: 500,
+       modal: true,
+       buttons : {
+           "确认新增" : function () {
+               var require = true;
+               $('.form-horizontal').find(".require").each(function () {
+                  var val = $(this).val().trim();
+                  if (val == null || val == ''){
+                      require = false;
+                  }
+               });
+               if (!require){
+                   jInfo("有必填项没有填写完成。");
+                   return;
+               }
+               var json = {};
+               $('.form-horizontal').find(".form-control").each(function () {
+                   var val = $(this).val().trim();
+                   json[this.name] = val;
+               });
+               console.log(json);
+               $.ajax({
+                   url : posturl.baseUrl+"line/path/add",
+                   type : "post",
+                   data : json,
+                   dataType : 'json',
+                   success : function (data) {
+                       console.log(data);
+                       if (data.code == result.success){
+                           load(1);
+                           jInfo()
+                           $('#add_new_path').dialog('close');
+                       }else{
+                           jInfo("新增失败。"+data.msg+"。");
+                       }
+                   }
+               })
+           },
+           "取消" : function () {
+               $(this).dialog("close");
+           }
+       }
+   });
+});
+
+var openDialog = function () {
+    // 初始化 用户选择下拉选
+    $('#add_userid').empty();
+    $('#add_userid').append("<option>选择用户</option>")
+    initUserSelect("add_userid");
+    // 初始化 路径下拉选
+    initFixCodeSelect(constant.JAVA_FILE_PATH,"add_is_big_path");
+    
+    $('#add_new_path').dialog("open");
+}
 
 // 以下 为执行
 
-utilFunction.initFixCodeSelect(constant.JAVA_FILE_PATH+2,"is_big_path");
+initFixCodeSelect(constant.JAVA_FILE_PATH+2,"is_big_path");
 
 load(1);
 

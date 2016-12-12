@@ -5,8 +5,12 @@
     <title>关于java行数目录列表</title>
     <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="../js/jquery-1.11.2.js"></script>
-    <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <!--<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
     <link href="../js/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- jquery ui 支持-->
+    <link href="../js/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet">
+    <script type="text/javascript" src="../js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
     
     <script src="../js/common.js"></script>
     <style>
@@ -25,7 +29,7 @@
                     <a href="../index.html">Home</a>
                 </li>
                 <li>
-                    <a href="#">Line</a>
+                    <a href="index.html">Line</a>
                 </li>
                 <li class="active">
                     Path
@@ -36,14 +40,26 @@
     <div class="row clearfix">
         <div class="col-md-12 column">
             <h3>
-                java 文件统计，路径添加
+                JAVA 文件统计，路径添加
             </h3>
             <blockquote>
+                <!--<p>-->
+                    <!--嗨，想想看，去年这个时候，我在干什么呢？自己那个时候，也再不停折腾自己的小程序吧，虽然没有-->
+                    <!--知道特别多，但还是不停地尝试，每一个周六周天，选择在自习室里，一坐就是一天，不停折腾，不停地思考，-->
+                    <!--偶然的话，还会写点心情，记一些感想。没有收入，没有尊严，没有骄傲，只有低下头，不停地学习。我还是向往着-->
+                    <!--温暖的，不是吗。穿的随意，破烂，住的窝火，哎，我不会忘记那个时候，自己的委屈。-->
                 <p>
-                    嗨，想想看，去年这个时候，我在干什么呢？自己那个时候，也再不停折腾自己的小程序吧，虽然没有
-                    知道特别多，但还是不停地尝试，每一个周六周天，选择在自习室里，一坐就是一天，不停折腾，不停地思考，
-                    偶然的话，还会写点心情，记一些感想。没有收入，没有尊严，没有骄傲，只有低下头，不停地学习。我还是向往着
-                    温暖的，不是吗。穿的随意，破烂，住的窝火，哎，我不会忘记那个时候，自己的委屈。
+                    <!--可以使用 alt + shift + insert 进入列输入模式-->
+                    昨夜小楼又东风          <br/>
+                    春心泛秋意上心头         <br/>
+                    恰似故人远来载乡愁        <br/>
+                    今夜月稀掩朦胧          <br/>
+                    低声叹呢喃望星空         <br/>
+                    恰似回首终究一场梦        <br/>
+                    轻轻叹哀怨 轻轻唱离愁      <br/>
+                    洗尽铅华终究染懵懂        <br/>
+                    轻轻探凡缘 轻轻尝离愁      <br/>
+                    人生何许终究换来一场疯
                 </p> <small>a-mdx <cite>2016-12-11 12:36:07</cite></small>
             </blockquote>
         </div>
@@ -53,6 +69,9 @@
             <div class="row clearfix">
                 <div class="col-md-12 column">
                     <form class="form-search form-inline" onsubmit="return false;" style="text-align: right;">
+                        <button class="btn btn-default" onclick="openDialog()" >
+                            <span class="fa fa-plus">&nbsp;</span>新增路径
+                        </button>&nbsp;
                         <select class="input_search form-control" name="search_userid" id="sendStatus">
                             <option value="">  user  </option>
                             <option value="1">  马东旭  </option>
@@ -102,6 +121,74 @@
             </div>
         </div>
     </div>
+</div>
+
+<div id="add_new_path" title="新增文件路径" style="display: none;font-family:'微软雅黑';">
+    <form class="form-horizontal">
+        <table style="width: 99%">
+            <thead>
+            <tr>
+                <th width="25%"></th>
+                <th width="75%"></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr style="height: 20px">
+                <td >
+                    <span style="color: red;">* </span>用户：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <select class="form-control require" id="add_userid" name="add_userid">
+
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            
+            <tr style="height: 20px">
+                <td >
+                    <span style="color: red;">* </span>目录地址：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" name="add_path" class="form-control require" placeholder="必填，不要重复" >
+                    </div>
+                </td>
+            </tr>
+
+            <tr style="height: 20px">
+                <td >
+                    <span style="color: red;">* </span>是否根地址：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <select class="form-control require" id="add_is_big_path" name="add_is_big_path">
+
+                        </select>
+                    </div>
+                </td>
+            </tr>
+
+            <tr style="height: 20px">
+                <td >
+                    &nbsp;&nbsp;&nbsp;备注信息：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" id="add_remark" name="add_remark" class="form-control" placeholder="备注信息">
+                    </div>
+                </td>
+            </tr>
+
+            
+
+
+            </tbody>
+
+        </table>
+    </form>
 </div>
 
 </body>

@@ -7,5 +7,6 @@ import madx.entity.Result;
  */
 public interface UtilService {
     Result queryFixCode(Integer codeType);
-    
+
+    Result queryUser();
 }

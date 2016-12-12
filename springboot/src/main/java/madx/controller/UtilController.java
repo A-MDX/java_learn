@@ -21,5 +21,10 @@ public class UtilController {
     public Result queryFixCode(int codeType){
         return utilService.queryFixCode(codeType);
     }
-    
+
+
+    @RequestMapping(value = "/user",method = RequestMethod.GET)
+    public Result queryUser(){
+        return utilService.queryUser();
+    }
 }
