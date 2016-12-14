@@ -59,4 +59,8 @@ public class LineController {
         return countJavaService.addPath(Common.getParametersStartingWith(request,"add_"));
     }
     
+    @RequestMapping(value = "/path/status/change",method = RequestMethod.POST)
+    public Result changePathStatus(ServletRequest request){
+        return countJavaService.changePathStatus(Common.getParametersStartingWith(request,""));
+    }
 }

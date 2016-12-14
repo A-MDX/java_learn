@@ -73,6 +73,16 @@ public class CountJavaServiceImpl implements CountJavaService{
                 // 活跃状态为否，则不参与统计
                 continue;
             }
+            File file = new File(pathPO.getPath());
+            if (!file.isDirectory()){
+                // 不是目录的话，失去活性。
+                pathPO.setModifyTime(new Date());
+                pathPO.setModifier(1);
+                pathPO.setIsActive(Common.STATUS_NO);
+                pathPO.setRemark("当前地址不是目录，或者不存在目录。");
+                pathDao.save(pathPO);
+                continue;
+            }
             Map<String,Integer> map = countNum(pathPO);
             // 如果是  ，代表大文件目录，可以统计进总数据中
             if (pathPO.getIsBigPath() == Common.JAVA_FILE_PATH_BIG){
@@ -129,6 +139,7 @@ public class CountJavaServiceImpl implements CountJavaService{
             try {
                 lines += readLine(fileDir);
             } catch (IOException e) {
+                logger.error("countNum error ",e);
                 e.printStackTrace();
             }
         }
@@ -212,7 +223,6 @@ public class CountJavaServiceImpl implements CountJavaService{
             }
         }
         
-        
         result.setMsg("ok");
         result.setData(commonJdbcService.query(JdbcCommonEnum.JAVA_LINE_LIST,param));
         result.setCode(Result.RESULT_SUCCESS);
@@ -237,13 +247,52 @@ public class CountJavaServiceImpl implements CountJavaService{
             
         }
 
-
         result.setMsg("ok");
         result.setData(commonJdbcService.query(JdbcCommonEnum.JAVA_FILE_LIST,param));
         result.setCode(Result.RESULT_SUCCESS);
 
         logger.info("result --> "+result);
 
+        return result;
+    }
+
+    @Override
+    public Result changePathStatus(Map<String, Object> param) {
+        Result result = Result.getInstance();
+        
+        if (param.size() < 2){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("参数异常");
+            return result;
+        }
+        Object id = param.get("id");
+        
+        if (id == null || "".equals(id)){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("参数 id 为空");
+            return result;
+        }
+        
+        Object isActive = param.get("isActive");
+        if (isActive == null || "".equals(isActive)){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("参数 isActive 为空");
+            return result;
+        }
+        
+        JavaFilePathPO pathPO = pathDao.findOne(Integer.valueOf(id.toString()));
+        if (pathPO == null ){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("参数 id.toString() "+id.toString()+"未找到当前记录");
+            return result;
+        }
+        
+        pathPO.setIsActive(Integer.valueOf(isActive.toString()));
+        
+        pathPO.setModifier(1);
+        pathPO.setModifyTime(new Date());
+        pathDao.save(pathPO);
+        
         return result;
     }
 

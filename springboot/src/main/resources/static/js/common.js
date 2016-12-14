@@ -32,6 +32,17 @@
 })();
 
 /**
+ * 用于快速写出jInfo参数
+ */
+(function () {
+    info = {};
+    info.danger = 'danger';
+    info.success = 'success';
+    info.warning = 'warning';
+    info.info = 'info';
+})();
+
+/**
  * 删除对象中的空值
  * @param data
  */
@@ -54,7 +65,7 @@ var initFixCodeSelect = function (codeType,id) {
         dataType : 'json',
         success : function (data) {
             if (data.code != result.success){
-                jInfo(data.msg+",下拉框初始化失败");
+                jInfo(data.msg+",下拉框初始化失败",info.warning);
                 return;
             }
             data = data.data;
@@ -82,22 +93,47 @@ var initUserSelect = function (id) {
                     $('#'+id).append("<option value='"+data[i][0]+"'>"+data[i][1]+"</option>")
                 }
             }else{
-                jInfo(data.msg+"。初始化 用户列表下拉选失败。");
+                jInfo(data.msg+"。初始化 用户列表下拉选失败",info.danger);
             }
         }
     });
-    $('#'+id).append()
+    
 }
 
 /**
  * bootstrap alert.
  * @param msg
  */
-var jInfo = function (msg) {
-    $('.breadcrumb').append('<div class="jInfo-alert"><br /><div class="alert alert-danger alert-dismissable">' +
-        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times;</button>' +
-        ' <strong>错误！</strong> '+msg+'。' +
-        '</div></div>');
+var jInfo = function (msg,type) {
+    var str = '<div class="jInfo-alert"><br />';
+    switch(type){
+        case 'info':
+            str += '<div class="alert alert-info alert-dismissable">' +
+                '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times;</button>' +
+                ' <strong>信息！</strong> '+msg+'。</div></div>';
+            break;
+        case 'danger':
+            str += '<div class="alert alert-danger alert-dismissable">' +
+                '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times;</button>' +
+                ' <strong>错误！</strong> '+msg+'。</div></div>';
+            break;
+        case 'warning':
+            str += '<div class="alert alert-warning alert-dismissable">' +
+                '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times;</button>' +
+                ' <strong>警报！</strong> '+msg+'。</div></div>';
+            break;
+        case 'success':
+            str += '<div class="alert alert-success alert-dismissable">' +
+                '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times;</button>' +
+                ' <strong>成功！</strong> '+msg+'。</div></div>';
+            break;
+        default:
+            str += '<div class="alert alert-info alert-dismissable">' +
+                '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times;</button>' +
+                ' <strong>信息！</strong> '+msg+'。</div></div>';
+    }
+    
+    $('.breadcrumb').append(str);
     // 5s 后隐藏
     
     setTimeout("hideInfo()",5000);

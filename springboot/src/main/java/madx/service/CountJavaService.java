@@ -15,5 +15,5 @@ public interface CountJavaService {
     Result removePath(Integer id);
     Result queryCountList(Map<String,Object> param);
     Result queryPathList(Map<String,Object> param);
-    
+    Result changePathStatus(Map<String,Object> param);
 }
