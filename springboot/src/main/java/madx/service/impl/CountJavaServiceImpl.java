@@ -91,7 +91,7 @@ public class CountJavaServiceImpl implements CountJavaService{
             }
         }
 
-        Map<String,Integer> map = new HashMap<>();
+        Map<String,Object> map = new HashMap<>();
         map.put("java_file",java_file);
         map.put("java_line",java_line);
         int line_than = java_line - lastnumPO.getLineNum();
@@ -121,6 +121,9 @@ public class CountJavaServiceImpl implements CountJavaService{
             numDao.save(newNumPo);
             userDao.save(userPO);
         }
+        
+        map.put("userid",userPO.getId());
+        map.put("user_name",userPO.getName());
         
         result.setData(map);
         result.setCode(Result.RESULT_SUCCESS);
@@ -293,6 +296,24 @@ public class CountJavaServiceImpl implements CountJavaService{
         pathPO.setModifyTime(new Date());
         pathDao.save(pathPO);
         
+        return result;
+    }
+
+    @Override
+    public Result queryUserMsg() {
+        Result result = Result.getInstance();
+        
+        List<UserPO> list_origin = userDao.findAll();
+        List<UserPO> list_now = new ArrayList<>();
+        for (UserPO userPO : list_origin){
+            UserPO user = new UserPO();
+            user.setId(userPO.getId());
+            user.setJavaLine(userPO.getJavaLine());
+            user.setName(userPO.getName());
+            list_now.add(user);
+        }
+        
+        result.setData(list_now);
         return result;
     }
 

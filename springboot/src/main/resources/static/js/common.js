@@ -86,7 +86,7 @@ var initUserSelect = function (id) {
         dataType : 'json',
         type : 'get',
         success : function (data) {
-            console.log(data);
+            // console.log(data);
             if (data.code == result.success){
                 data = data.data;
                 for (var i=0;i<data.length;i++){

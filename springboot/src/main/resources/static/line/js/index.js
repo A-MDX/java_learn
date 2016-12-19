@@ -32,7 +32,12 @@ $(function () {
                           jInfo("统计失败。"+data.msg,info.danger);
                       }else {
                           // success... 
-                          // TODO .. 
+                          $('#count_dialog').dialog('close');
+                          data = data.data;
+                          $('#count_dialog_result_name').html(data['user_name']);
+                          $('#count_dialog_result_java_file').html(data['java_file']);
+                          $('#count_dialog_result_java_line').html(data['java_line']);
+                          $('#count_dialog_result').dialog('open');
                           
                       }
                        
@@ -49,6 +54,28 @@ $(function () {
             
         }
     });
+    
+    // init count_dialog_result dialog
+    $('#count_dialog_result').dialog({
+        autoOpen: false,
+        show: {
+            effect: "blind",
+            duration: 500
+        },
+        hide: {
+            effect: "flod",
+            duration: 500
+        },
+        height: 350,
+        width: 500,
+        modal: true,
+        buttons : {
+            "确认" : function () {
+                $(this).dialog('close');
+            }
+        }
+    });
+    
 });
 
 var open_count_dialog = function () {
@@ -57,4 +84,33 @@ var open_count_dialog = function () {
     initUserSelect("count_dialog_userid");
     $('#count_dialog').dialog('open');
 }
+
+$(function () {
+    $.ajax({
+       url : posturl.baseUrl+'line/user/msg',
+        type : 'get',
+        dataType : 'json',
+        success : function (data) {
+            console.log(data);
+            if (data.code == result.success){
+                $('#index_user_msg').empty();
+                data = data.data;
+                for (var i=0;i<data.length;i++){
+                    var str = '<tr>';
+                    str += '<td>'+data[i]['id']+'</td>';
+                    str += '<td>'+data[i]['name']+'</td>';
+                    str += '<td>'+data[i]['javaLine']+'</td>';
+                    str += '</tr>';
+                    $('#index_user_msg').append(str);
+                }
+            }else {
+                jInfo('加载user 信息失败',info.danger);
+            }
+        },
+        error : function (e) {
+            jInfo("修改失败,点击f12调试吧。",info.danger);
+            console.log(e);
+        }
+    });
+});
 

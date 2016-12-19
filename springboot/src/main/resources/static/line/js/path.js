@@ -229,7 +229,7 @@ var openDialog = function () {
 
 // 以下 为执行
 
-initFixCodeSelect(constant.JAVA_FILE_PATH+2,"is_big_path");
+initFixCodeSelect(constant.JAVA_FILE_PATH,"is_big_path");
 
 load(1);
 

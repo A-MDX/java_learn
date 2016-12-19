@@ -64,7 +64,7 @@
                     <th>总计</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="index_user_msg">
                 <tr>
                     <td>1</td>
                     <td>马东旭</td>
@@ -95,7 +95,7 @@
                 查看java统计行数记录，这一块，似乎还没设计好，需要多多完善。原本以为很简单的事情做的这么累。
             </p>
             <p>
-                <a class="btn btn-danger btn-block" href="line.html"><i class="fa fa-hea2rtbeat"></i> View details »</a>
+                <a class="btn btn-danger btn-block" href="line.html"><i class="fa fa-heartbeat"></i> 查看行数统计记录</a>
             </p>
         </div>
         <div class="col-md-4 column">
@@ -104,13 +104,13 @@
                 不同user有不同的路径，这样会有不同的统计结果。
             </p>
             <p>
-                <a class="btn btn-primary btn-block" href="path.html"><i class="fa fa-map-marker" aria-hidden="true"></i> View details »</a>
+                <a class="btn btn-primary btn-block" href="path.html"><i class="fa fa-map-marker" aria-hidden="true"></i> 查看文件路径地址</a>
             </p>
         </div>
     </div>
 </div>
 
-<div title="来次统计" id="count_dialog" style="font-family: '微软雅黑';">
+<div title="来次统计" id="count_dialog" style="font-family: '微软雅黑';display: none;">
     <p>
         选择一个用户，然后直接进行统计。
     </p>
@@ -118,6 +118,18 @@
     <select class="form-control" id="count_dialog_userid" name="count_dialog_userid">
 
     </select>
+</div>
+<div title="本次统计结果" id="count_dialog_result" style="font-family: '微软雅黑';display: none;">
+    <p>
+        当前用户名称 ： <span id="count_dialog_result_name" style="color:red;"></span>
+    </p>
+    <p>
+        当前文件数目 ： <span id="count_dialog_result_java_file" style="color:red;"></span>
+    </p>
+    <p>
+        当前java行数 ： <span id="count_dialog_result_java_line" style="color:red;"></span>
+    </p>
+    
 </div>
 
 </body>

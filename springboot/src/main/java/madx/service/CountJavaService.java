@@ -16,4 +16,6 @@ public interface CountJavaService {
     Result queryCountList(Map<String,Object> param);
     Result queryPathList(Map<String,Object> param);
     Result changePathStatus(Map<String,Object> param);
+
+    Result queryUserMsg();
 }
