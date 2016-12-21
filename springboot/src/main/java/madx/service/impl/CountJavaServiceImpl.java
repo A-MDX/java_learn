@@ -96,7 +96,7 @@ public class CountJavaServiceImpl implements CountJavaService{
         map.put("java_line",java_line);
         int line_than = java_line - lastnumPO.getLineNum();
         int num_than = java_file - lastnumPO.getFileNum();
-        map.put("line_than",0);
+        map.put("line_than",line_than);
         map.put("num_than",num_than);
         
         // 如果跟上次数据相同，并且日期是是当天的,就不要存了。

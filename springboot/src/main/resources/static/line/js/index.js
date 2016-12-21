@@ -34,10 +34,23 @@ $(function () {
                           // success... 
                           $('#count_dialog').dialog('close');
                           data = data.data;
-                          $('#count_dialog_result_name').html(data['user_name']);
-                          $('#count_dialog_result_java_file').html(data['java_file']);
-                          $('#count_dialog_result_java_line').html(data['java_line']);
-                          $('#count_dialog_result').dialog('open');
+
+                          swal({
+                              title: "Success!",
+                              text: "这里是统计结果:\n" +
+                              "当前用户名称 ：<span style='color:red;'>"+data['user_name']+"</span><br>" +
+                              "当前文件数目 ：<span style='color:red;'>"+data['java_file']+"</span><br>" +
+                              "当前java行数 ：<span style='color:red;'>"+data['java_line']+"</span>",
+                              type: "success",
+                              confirmButtonText: "Cool",
+                              html : true
+                          });
+                          
+                          
+                          // $('#count_dialog_result_name').html(data['user_name']);
+                          // $('#count_dialog_result_java_file').html(data['java_file']);
+                          // $('#count_dialog_result_java_line').html(data['java_line']);
+                          // $('#count_dialog_result').dialog('open');
                           
                       }
                        
@@ -55,31 +68,13 @@ $(function () {
         }
     });
     
-    // init count_dialog_result dialog
-    $('#count_dialog_result').dialog({
-        autoOpen: false,
-        show: {
-            effect: "blind",
-            duration: 500
-        },
-        hide: {
-            effect: "flod",
-            duration: 500
-        },
-        height: 350,
-        width: 500,
-        modal: true,
-        buttons : {
-            "确认" : function () {
-                $(this).dialog('close');
-            }
-        }
-    });
+    
     
 });
 
 var open_count_dialog = function () {
     
+    $('#count_dialog_userid').empty();
     $('#count_dialog_userid').append('<option value="">选择</option>');
     initUserSelect("count_dialog_userid");
     $('#count_dialog').dialog('open');
