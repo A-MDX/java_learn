@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件统计</title>
+    <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="../js/jquery-1.11.2.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <!-- jquery ui 支持-->
+    <link href="../js/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet">
+    <script type="text/javascript" src="../js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+
+    <link href="../js/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    
+    <script src = "../js/sweetalert/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../js/sweetalert/sweetalert.css">
+    
+    <script src="../js/common.js"></script>
+    <style>
+        body{
+            font-family: '微软雅黑';
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="../index.html">Home</a>
+                </li>
+                <li class="active">
+                    Eat
+                </li>
+                <!--<li class="active">-->
+                    <!--Data-->
+                <!--</li>-->
+            </ul>
+            <div class="jumbotron">
+                <h3>
+                   所以，吃什么  
+                </h3>
+                <p>
+                    随意呗，随机一个看看
+                </p>
+                <p>
+                    <form class="form-inline" role="form" onsubmit="return false" style="text-align: right;">
+                        <button class="btn btn-default" onclick="window.location.href='type.html'"><i class="fa fa-cutlery" aria-hidden="true"></i> 查看类别</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="btn btn-default" onclick="window.location.href='memu.html'"><i class="fa fa-list-ul" aria-hidden="true"></i> 查看列表</button>
+                    </form>
+                </p>
+                
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-4 column">
+            <h2>USER</h2>
+            <p>
+                只是一个在家，一个在公司。都会做统计，却有不一样的统计结果。统计的是写的java的行数。
+            </p>
+            <table class="table table-hover table-condensed table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>姓名</th>
+                    <th>总计</th>
+                </tr>
+                </thead>
+                <tbody id="index_user_msg">
+                <tr>
+                    <td>1</td>
+                    <td>马东旭</td>
+                    <td>60000</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>马大哈</td>
+                    <td>250</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>小马哈</td>
+                    <td>500</td>
+                </tr>
+                </tbody>
+                
+            </table>
+            <p>
+                <!-- Indicates a successful or positive action -->
+                <button type="button" onclick="open_count_dialog()" class="btn btn-success btn-block"><i class="fa fa-key" aria-hidden="true"></i> 统计</button>
+                
+            </p>
+        </div>
+        <div class="col-md-4 column">
+            <h2>LINE</h2>
+            <p>
+                查看java统计行数记录，这一块，似乎还没设计好，需要多多完善。原本以为很简单的事情做的这么累。
+            </p>
+            <p>
+                <a class="btn btn-danger btn-block" href="type.html"><i class="fa fa-heartbeat"></i> 查看行数统计记录</a>
+            </p>
+        </div>
+        <div class="col-md-4 column">
+            <h2>PATH</h2>
+            <p>
+                不同user有不同的路径，这样会有不同的统计结果。
+            </p>
+            <p>
+                <a class="btn btn-primary btn-block" href="memu.html"><i class="fa fa-map-marker" aria-hidden="true"></i> 查看文件路径地址</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div title="来次统计" id="count_dialog" style="font-family: '微软雅黑';display: none;">
+    <p>
+        选择一个用户，然后直接进行统计。
+    </p>
+    <span style="color: red;">* </span>用户：
+    <select class="form-control" id="count_dialog_userid" name="count_dialog_userid">
+
+    </select>
+</div>
+<div title="本次统计结果" id="count_dialog_result" style="font-family: '微软雅黑';display: none;">
+    <p>
+        当前用户名称 ： <span id="count_dialog_result_name" style="color:red;"></span>
+    </p>
+    <p>
+        当前文件数目 ： <span id="count_dialog_result_java_file" style="color:red;"></span>
+    </p>
+    <p>
+        当前java行数 ： <span id="count_dialog_result_java_line" style="color:red;"></span>
+    </p>
+    
+</div>
+
+</body>
+<script src="js/index.js" type="text/javascript"></script>
+</html>
