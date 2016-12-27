@@ -1,8 +1,14 @@
 package madx.dao;
 
+import madx.common.Common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by A-mdx on 2016/12/26.
@@ -13,5 +19,57 @@ public class EatJdbcDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     
+    public List<Map<String,Object>> queryTypeList(Map<String,Object> param,boolean isPage){
+        List<Object> objList = new ArrayList<>();
+        List<Integer> intList = new ArrayList<>();
+
+        StringBuilder sql = new StringBuilder("SELECT\n");
+        if (isPage){
+            sql.append("  e.`id`,\n" +
+                    "  e.`name`,\n" +
+                    "  f.`code_name`,\n" +
+                    "  e.`max_dian`,\n" +
+                    "  e.`now_dian`,\n" +
+                    "  e.`picture`,\n" +
+                    "  e.`remark`,\n" +
+                    "  DATE_FORMAT(\n" +
+                    "    e.`creation_time`,\n" +
+                    "    '%Y-%m-%d %H:%i:%s'\n" +
+                    "  ) creation_time,\n" +
+                    "  DATE_FORMAT(\n" +
+                    "    e.`modify_time`,\n" +
+                    "    '%Y-%m-%d %H:%i:%s'\n" +
+                    "  ) modify_time \n");
+        }else{
+            sql.append("  COUNT(1) count\n");
+        }
+
+        sql.append("FROM\n" +
+                "  eat_type e \n" +
+                "  LEFT JOIN fix_code f \n" +
+                "    ON f.`code` = e.`status` \n" +
+                "WHERE 1 = 1 \n");
+        
+        // max_dian_than_big
+        if (Common.isNotNull(param,"max_dian_than_big",objList)){
+            sql.append("  AND e.`max_dian` > ? \n");
+            intList.add(Types.INTEGER);
+        }
+        
+        // TODO ...
+        
+        if (isPage){
+            sql.append("ORDER BY e.`creation_time` DESC \n" +
+                    "LIMIT ?, ?");
+            intList.add(Types.INTEGER);
+            objList.add(param.get("pageNumber"));
+            intList.add(Types.INTEGER);
+            objList.add(param.get("pageSize"));
+        }
+
+        System.out.println("EatJdbcDao -> queryTypeList : \n"+sql);
+        
+        return jdbcTemplate.queryForList(sql.toString(),objList.toArray(),Common.convertIntArr(intList));
+    }
     
 }

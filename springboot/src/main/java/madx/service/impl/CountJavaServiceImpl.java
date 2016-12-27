@@ -1,7 +1,7 @@
 package madx.service.impl;
 
 import madx.common.Common;
-import madx.common.JdbcCommonEnum;
+import madx.service.JdbcCommonEnum;
 import madx.dao.JavaFilePathDao;
 import madx.dao.JavaLineNumDao;
 import madx.dao.UserDao;

@@ -1,4 +1,4 @@
-package madx.common;
+package madx.service;
 
 /**
  * Created by A-mdx on 2016/12/1.

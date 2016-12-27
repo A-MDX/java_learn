@@ -1,6 +1,5 @@
 package madx.service;
 
-import madx.common.JdbcCommonEnum;
 import madx.dao.LineJdbcDao;
 import madx.entity.PageQueryPO;
 import org.springframework.beans.factory.annotation.Autowired;

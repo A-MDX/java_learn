@@ -1,8 +1,8 @@
 package madx.service.impl;
 
 import madx.dao.EatJdbcDao;
+import madx.dao.EatMemuDao;
 import madx.dao.EatTypeDao;
-import madx.entity.EatMemuPO;
 import madx.entity.Result;
 import madx.service.EatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +20,10 @@ public class EatServiceImpl implements EatService{
     private EatJdbcDao eatJdbcDao;
     
     @Autowired
-    private EatMemuPO eatMemuPO;
+    private EatMemuDao eatMemuDao;
     
     @Autowired
     private EatTypeDao eatTypeDao;
-    
     
     
     @Override
