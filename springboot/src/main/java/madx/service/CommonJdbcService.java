@@ -1,5 +1,6 @@
 package madx.service;
 
+import madx.dao.EatJdbcDao;
 import madx.dao.LineJdbcDao;
 import madx.entity.PageQueryPO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class CommonJdbcService {
     
     @Autowired
     private LineJdbcDao lineJdbcDao;
+    
+    @Autowired
+    private EatJdbcDao eatJdbcDao;
 
     private List<Map<String,Object>> selectMethod(JdbcCommonEnum jdbcEnum, Map<String,Object> param,
                                                   boolean isPage){
@@ -24,6 +28,8 @@ public class CommonJdbcService {
                 return lineJdbcDao.queryLineList(param,isPage);
             case JAVA_FILE_LIST:
                 return lineJdbcDao.queryPathList(param,isPage);
+            case EAT_TYPE_LIST:
+                return eatJdbcDao.queryTypeList(param,isPage);
         }
         return null;
     }
@@ -35,7 +41,7 @@ public class CommonJdbcService {
         Long size = (Long) list.get(0).get("count");
         int totleSize = size == null ? 0 : Integer.valueOf(size+"");
         Integer pageSize = (Integer) param.get("pageSize");
-        PageQueryPO pageQueryPO = new PageQueryPO((Integer) param.get("pageSize"),totleSize);
+        PageQueryPO pageQueryPO = new PageQueryPO(pageSize,totleSize);
         int pageNumber = (int) param.get("pageNumber");
         
         pageQueryPO.setPageNumber(pageNumber);

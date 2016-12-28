@@ -56,10 +56,39 @@ public class EatJdbcDao {
             intList.add(Types.INTEGER);
         }
         
-        // TODO ...
+        // max_dian_than_small
+        if (Common.isNotNull(param,"max_dian_than_small",objList)){
+            sql.append("  AND e.`max_dian` < ? \n");
+            intList.add(Types.INTEGER);
+        }
+        
+        // now_dian_than_big
+        if (Common.isNotNull(param,"now_dian_than_big",objList)){
+            sql.append("  AND e.`now_dian` > ? \n");
+            intList.add(Types.INTEGER);
+        }
+        
+        // now_dian_than_small
+        if (Common.isNotNull(param,"now_dian_than_small",objList)){
+            sql.append("  AND e.`now_dian` < ? \n");
+            intList.add(Types.INTEGER);
+        }
+        
+        // status
+        if (Common.isNotNull(param,"status",objList)){
+            sql.append("  AND e.`status` = ? \n");
+            intList.add(Types.INTEGER);
+        }
+        
+        // name
+        if (Common.isNotNull(param,"name",objList)){
+            sql.append("  AND e.`name` LIKE ?\n");
+            intList.add(Types.VARCHAR);
+        }
+        
         
         if (isPage){
-            sql.append("ORDER BY e.`creation_time` DESC \n" +
+            sql.append("ORDER BY e.`creation_time` \n" +
                     "LIMIT ?, ?");
             intList.add(Types.INTEGER);
             objList.add(param.get("pageNumber"));

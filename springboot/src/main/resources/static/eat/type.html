@@ -7,8 +7,9 @@
     <script type="text/javascript" src="../js/jquery-1.11.2.js"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link href="../js/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    
-    <script src="../js/laydate/laydate.js"></script>
+
+    <script src = "../js/sweetalert/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../js/sweetalert/sweetalert.css">
     
     <script src="../js/common.js"></script>
     <style>
@@ -67,12 +68,13 @@
                     </form>
                 </div>
             </div>
+            <hr/>
             <table class="table">
                 <thead>
                 <tr>
                     <th>编号</th>
                     <th>名称</th>
-                    <th>状态</th>
+                    <th>启用状态</th>
                     <th>最大点数</th>
                     <th>当前点数</th>
                     <th>创建时间</th>
@@ -128,6 +130,106 @@
             </div>
         </div>
     </div>
+</div>
+
+<div id="add_new_type" title="新增食物类型" style="display: none;font-family:'微软雅黑';">
+    <form class="form-horizontal">
+        <table style="width: 99%">
+            <thead>
+            <tr>
+                <th width="25%"></th>
+                <th width="75%"></th>
+            </tr>
+            </thead>
+            <tbody>
+
+
+            <tr style="height: 20px">
+                <td >
+                    <span style="color: red;">* </span>名称：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" name="add_path" class="form-control require" placeholder="必填，不要重复" >
+                    </div>
+                </td>
+            </tr>
+
+            <tr style="height: 20px">
+                <td >
+                    <span style="color: red;">* </span>最大点数：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" name="add_path" class="form-control require" placeholder="必填，不要重复" >
+                    </div>
+                </td>
+            </tr>
+
+            <tr style="height: 20px">
+                <td >
+                    <span style="color: red;">* </span>目录地址：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" name="add_path" class="form-control require" placeholder="必填，不要重复" >
+                    </div>
+                </td>
+            </tr>
+
+            <tr style="height: 20px">
+                <td >
+                    <span style="color: red;">* </span>目录地址：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" name="add_path" class="form-control require" placeholder="必填，不要重复" >
+                    </div>
+                </td>
+            </tr>
+            
+            <tr style="height: 20px">
+                <td >
+                    <span style="color: red;">* </span>目录地址：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" name="add_path" class="form-control require" placeholder="必填，不要重复" >
+                    </div>
+                </td>
+            </tr>
+
+            <tr style="height: 20px">
+                <td >
+                    <span style="color: red;">* </span>是否根地址：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <select class="form-control require" id="add_is_big_path" name="add_is_big_path">
+
+                        </select>
+                    </div>
+                </td>
+            </tr>
+
+            <tr style="height: 20px">
+                <td >
+                    &nbsp;&nbsp;&nbsp;备注信息：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" id="add_remark" name="add_remark" class="form-control" placeholder="备注信息">
+                    </div>
+                </td>
+            </tr>
+
+
+
+
+            </tbody>
+
+        </table>
+    </form>
 </div>
 
 </body>

@@ -9,5 +9,12 @@ import java.util.Map;
  */
 public interface EatService {
     Result queryEatTypeList(Map<String, Object> param);
-    
+
+    Result modifyType(Map<String, Object> param);
+
+    Result addType(Map<String, Object> param);
+
+    Result modifyMemu(Map<String, Object> param);
+
+    Result addMemu(Map<String, Object> param);
 }

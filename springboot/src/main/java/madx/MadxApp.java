@@ -18,6 +18,6 @@ public class MadxApp implements CommandLineRunner {
 	
 	@Override
 	public void run(String... strings) throws Exception {
-		
+		System.out.println("Running init is success...");
 	}
 }
