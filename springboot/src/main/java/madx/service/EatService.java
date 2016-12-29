@@ -17,4 +17,8 @@ public interface EatService {
     Result modifyMemu(Map<String, Object> param);
 
     Result addMemu(Map<String, Object> param);
+
+    Result resetType(Map<String, Object> param);
+
+    Result findOneType(Map<String, Object> param);
 }

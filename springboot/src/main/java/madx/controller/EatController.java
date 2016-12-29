@@ -32,7 +32,7 @@ public class EatController {
         return eatService.modifyMemu(param);
     }
 
-    @RequestMapping(value = "/type/add",method = RequestMethod.POST)
+    @RequestMapping(value = "/memu/add",method = RequestMethod.POST)
     public Result addMemu(ServletRequest request){
         Map<String,Object> param = Common.getParametersStartingWith(request,"search_");
         return eatService.addMemu(param);
@@ -51,14 +51,26 @@ public class EatController {
     
     @RequestMapping(value = "/type/modify",method = RequestMethod.POST)
     public Result modifyType(ServletRequest request){
-        Map<String,Object> param = Common.getParametersStartingWith(request,"search_");
+        Map<String,Object> param = Common.getParametersStartingWith(request,"modify_");
         return eatService.modifyType(param);
     }
 
     @RequestMapping(value = "/type/add",method = RequestMethod.POST)
     public Result addType(ServletRequest request){
-        Map<String,Object> param = Common.getParametersStartingWith(request,"search_");
+        Map<String,Object> param = Common.getParametersStartingWith(request,"add_");
         return eatService.addType(param);
     }
 
+    @RequestMapping(value = "/type/reset",method = RequestMethod.POST)
+    public Result resetType(ServletRequest request){
+        Map<String,Object> param = Common.getParametersStartingWith(request,"");
+        return eatService.resetType(param);
+    }
+
+    @RequestMapping(value = "/type/one",method = RequestMethod.POST)
+    public Result findOneType(ServletRequest request){
+        Map<String,Object> param = Common.getParametersStartingWith(request,"");
+        return eatService.findOneType(param);
+    }
+    
 }

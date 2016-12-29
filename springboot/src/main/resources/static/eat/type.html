@@ -10,7 +10,12 @@
 
     <script src = "../js/sweetalert/sweetalert.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../js/sweetalert/sweetalert.css">
-    
+
+    <!-- jquery ui 支持-->
+    <link href="../js/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet">
+    <script type="text/javascript" src="../js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+
+
     <script src="../js/common.js"></script>
     <style>
         body{
@@ -43,7 +48,7 @@
             </h3>
             <blockquote>
                 <p>
-                    虽然对这方面不讲究，但，做做看呗。<button class="btn btn-default" onclick="" ><span class="fa fa-plus">&nbsp;</span>新增一个类别？</button>
+                    虽然对这方面不讲究，但，做做看呗。<button class="btn btn-default" onclick="addType()" ><span class="fa fa-plus">&nbsp;</span>新增一个类别？</button>
                 </p> <small>a-mdx <cite>2016年12月26日 15:12:46</cite></small>
             </blockquote>
         </div>
@@ -132,7 +137,7 @@
     </div>
 </div>
 
-<div id="add_new_type" title="新增食物类型" style="display: none;font-family:'微软雅黑';">
+<div id="add_new_type" title="新增吃的类型" style="display: none;font-family:'微软雅黑';">
     <form class="form-horizontal">
         <table style="width: 99%">
             <thead>
@@ -150,7 +155,7 @@
                 </td>
                 <td>
                     <div class="form-group" >
-                        <input type="text" name="add_path" class="form-control require" placeholder="必填，不要重复" >
+                        <input type="text" name="add_name" class="form-control require" placeholder="必填，不要重复" >
                     </div>
                 </td>
             </tr>
@@ -161,53 +166,18 @@
                 </td>
                 <td>
                     <div class="form-group" >
-                        <input type="text" name="add_path" class="form-control require" placeholder="必填，不要重复" >
+                        <input type="text" name="add_max_dian" class="form-control require" placeholder="必填，不要重复" >
                     </div>
                 </td>
             </tr>
 
             <tr style="height: 20px">
                 <td >
-                    <span style="color: red;">* </span>目录地址：
+                    &nbsp;&nbsp;&nbsp;图片地址：
                 </td>
                 <td>
                     <div class="form-group" >
-                        <input type="text" name="add_path" class="form-control require" placeholder="必填，不要重复" >
-                    </div>
-                </td>
-            </tr>
-
-            <tr style="height: 20px">
-                <td >
-                    <span style="color: red;">* </span>目录地址：
-                </td>
-                <td>
-                    <div class="form-group" >
-                        <input type="text" name="add_path" class="form-control require" placeholder="必填，不要重复" >
-                    </div>
-                </td>
-            </tr>
-            
-            <tr style="height: 20px">
-                <td >
-                    <span style="color: red;">* </span>目录地址：
-                </td>
-                <td>
-                    <div class="form-group" >
-                        <input type="text" name="add_path" class="form-control require" placeholder="必填，不要重复" >
-                    </div>
-                </td>
-            </tr>
-
-            <tr style="height: 20px">
-                <td >
-                    <span style="color: red;">* </span>是否根地址：
-                </td>
-                <td>
-                    <div class="form-group" >
-                        <select class="form-control require" id="add_is_big_path" name="add_is_big_path">
-
-                        </select>
+                        <input type="text" name="add_picture" class="form-control" placeholder="图片，上传微博，然后复制图片地址">
                     </div>
                 </td>
             </tr>
@@ -218,13 +188,99 @@
                 </td>
                 <td>
                     <div class="form-group" >
-                        <input type="text" id="add_remark" name="add_remark" class="form-control" placeholder="备注信息">
+                        <input type="text" name="add_remark" class="form-control" placeholder="备注信息">
                     </div>
                 </td>
             </tr>
 
 
 
+
+            </tbody>
+
+        </table>
+    </form>
+</div>
+
+<div id="modify_type_dialog" title="修改吃的类型" style="display: none;font-family:'微软雅黑';">
+    
+    <form class="form-horizontal">
+        <table style="width: 99%">
+            <thead>
+            <tr>
+                <th width="25%"></th>
+                <th width="75%"></th>
+            </tr>
+            </thead>
+            <tbody>
+            
+            <tr style="height: 20px">
+                <td >
+                    &nbsp;&nbsp;&nbsp;编号：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" name="modify_id" id="modify_id" class="form-control" disabled>
+                    </div>
+                </td>
+            </tr>
+
+            <tr style="height: 20px">
+                <td >
+                    &nbsp;&nbsp;&nbsp;名称：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" name="modify_name" id="modify_name" class="form-control">
+                    </div>
+                </td>
+            </tr>
+
+            <tr style="height: 20px">
+                <td >
+                    &nbsp;&nbsp;&nbsp;最大点数：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" name="modify_max_dian" id="modify_max_dian" class="form-control" value="20">
+                        
+                    </div>
+                </td>
+            </tr>
+
+            <tr style="height: 20px">
+                <td >
+                    &nbsp;&nbsp;&nbsp;当前点数：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" name="modify_now_dian" id="modify_now_dian" class="form-control" value="20">
+                        
+                    </div>
+                </td>
+            </tr>
+
+            <tr style="height: 20px">
+                <td >
+                    &nbsp;&nbsp;&nbsp;图片地址：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" id="modify_picture" name="modify_picture" class="form-control">
+                    </div>
+                </td>
+            </tr>
+
+            <tr style="height: 20px">
+                <td >
+                    &nbsp;&nbsp;&nbsp;备注信息：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" id="modify_remark" name="modify_remark" class="form-control">
+                    </div>
+                </td>
+            </tr>
 
             </tbody>
 
