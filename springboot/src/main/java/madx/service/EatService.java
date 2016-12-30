@@ -21,4 +21,6 @@ public interface EatService {
     Result resetType(Map<String, Object> param);
 
     Result findOneType(Map<String, Object> param);
+
+    Result menuType(Map<String, Object> param);
 }

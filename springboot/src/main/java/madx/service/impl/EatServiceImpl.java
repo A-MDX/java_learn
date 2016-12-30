@@ -1,7 +1,6 @@
 package madx.service.impl;
 
 import madx.common.Common;
-import madx.dao.EatJdbcDao;
 import madx.dao.EatMemuDao;
 import madx.dao.EatTypeDao;
 import madx.entity.EatTypePO;
@@ -25,9 +24,6 @@ import java.util.Map;
 public class EatServiceImpl implements EatService{
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    
-    @Autowired
-    private EatJdbcDao eatJdbcDao;
     
     @Autowired
     private EatMemuDao eatMemuDao;
@@ -59,6 +55,60 @@ public class EatServiceImpl implements EatService{
     @Override
     public Result modifyType(Map<String, Object> param) {
         Result result = Result.getInstance();
+
+        Object id = param.get("id");
+        if (id == null || StringUtils.isBlank(id.toString())){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("没传 id 这个参数");
+            return result;
+        }
+        
+        EatTypePO eatTypePO = eatTypeDao.findOne(Integer.valueOf(id.toString()));
+        
+        Object max_dian = param.get("max_dian");
+        if (max_dian != null && StringUtils.isNotBlank(max_dian.toString())){
+            Integer max_dian1 = Integer.valueOf(max_dian.toString());
+            eatTypePO.setMaxDian(max_dian1);
+            eatTypePO.setNowDian(max_dian1);
+        }
+        
+        Object name = param.get("name");
+        if (name != null && StringUtils.isNotBlank(name.toString())){
+            eatTypePO.setName(name.toString());
+        }
+        
+        Object now_dian = param.get("now_dian");
+        if (now_dian != null && StringUtils.isNotBlank(now_dian.toString())){
+            int now_dian1 = Integer.valueOf(now_dian.toString());
+            if (now_dian1 > eatTypePO.getMaxDian()){
+                result.setCode(Result.RESULT_PARAME_ERRROR);
+                result.setMsg("传入的 now_dian:"+ now_dian+" 这个参数大于当前最大点数 ："+eatTypePO.getMaxDian());
+                return result;
+            }
+            eatTypePO.setNowDian(now_dian1);
+        }
+        
+        Object picture = param.get("picture");
+        if (picture != null && StringUtils.isNotBlank(picture.toString())){
+            eatTypePO.setPicture(picture.toString());
+        }
+        
+        Object remark = param.get("remark");
+        if (remark != null && StringUtils.isNotBlank(remark.toString())){
+            eatTypePO.setRemark(remark.toString());
+        }
+        
+        Object status = param.get("status");
+        if (status != null && StringUtils.isNotBlank(status.toString())){
+            eatTypePO.setStatus(Integer.valueOf(status.toString()));
+        }
+        
+        eatTypePO.setModifyTime(new Date());
+        eatTypePO.setModifier(1);
+        
+        eatTypePO = eatTypeDao.save(eatTypePO);
+        
+        result.setData(eatTypePO);
         
         return result;
     }
@@ -113,6 +163,9 @@ public class EatServiceImpl implements EatService{
         
         EatTypePO eatTypePO = eatTypeDao.findOne(Integer.valueOf(id.toString()));
         eatTypePO.setNowDian(eatTypePO.getMaxDian());
+
+        eatTypePO.setModifyTime(new Date());
+        eatTypePO.setModifier(1);
         
         eatTypeDao.save(eatTypePO);
         return result;
@@ -139,6 +192,23 @@ public class EatServiceImpl implements EatService{
         
         result.setData(eatTypePO);
         
+        return result;
+    }
+
+    @Override
+    public Result menuType(Map<String, Object> param) {
+        Result result = Result.getInstance();
+
+        try {
+            result.setData(eatTypeDao.findIdAndName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("查询 eatTypeDao.findIdAndName() 失败",e);
+            result.setCode(Result.RESULT_ERROR);
+            result.setMsg("系统异常了。");
+            return result;
+        }
+
         return result;
     }
 

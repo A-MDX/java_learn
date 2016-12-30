@@ -30,6 +30,8 @@ public class CommonJdbcService {
                 return lineJdbcDao.queryPathList(param,isPage);
             case EAT_TYPE_LIST:
                 return eatJdbcDao.queryTypeList(param,isPage);
+            case EAT_MEMU_LIST:
+                return eatJdbcDao.queryMemuList(param,isPage);
         }
         return null;
     }

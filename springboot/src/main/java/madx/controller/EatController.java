@@ -38,6 +38,11 @@ public class EatController {
         return eatService.addMemu(param);
     }
 
+    @RequestMapping(value = "/menu/type",method = RequestMethod.POST)
+    public Result menuType(ServletRequest request){
+        Map<String,Object> param = Common.getParametersStartingWith(request,"search_");
+        return eatService.menuType(param);
+    }
 
     @RequestMapping(value = "/type/list",method = RequestMethod.POST)
     public Result queryTypeList(@RequestParam(value = "page", defaultValue = "1") int pageNumber,

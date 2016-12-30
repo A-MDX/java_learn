@@ -299,7 +299,51 @@ $(function () {
     });
 });
 
+// show moreColumn 更多查询条件
+$(function(){
+    var show = true;
+    $('#moreColumn').slideUp('slow');
+    $('#showMoreColumn').click(function(){
+        if(show){
+            $('#moreColumn').slideDown();
+            show = false;
+        }else{
+            $('#moreColumn').slideUp();
+            show = true;
+        }
+    });
+});
+
+// init type
+$(function () {
+
+    $.ajax({
+        url: posturl.baseUrl + "eat/menu/type",
+        type: "post",
+        dataType: 'json',
+        success: function (data) {
+            // console.log(data);
+            if (data.code == result.success) {
+                $('#search_type').empty();
+                $('#search_type').append('<option value="">  食物类型  </option>');
+                data = data.data;
+                for (var i=0;i<data.length;i++){
+                    $('#search_type').append("<option value='"+data[i][0]+"'>"+data[i][1]+"</option>");
+                }
+            } else {
+                jInfo("初始化食物类型下拉选失败。" + data.msg, info.danger);
+            }
+        },
+        error: function (e) {
+            console.log(e);
+            jInfo("初始化食物类型下拉选失败", info.danger);
+        }
+    });
+});
+
 initFixCodeSelect(constant.STATUS,"select_status");
+initTime();
+
 
 var addType = function () {
     $('#add_new_type').dialog('open');
@@ -378,4 +422,5 @@ var showPic = function (id) {
 };
 
 load(1);
+
 

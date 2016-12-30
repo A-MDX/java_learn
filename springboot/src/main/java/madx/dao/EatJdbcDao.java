@@ -1,6 +1,7 @@
 package madx.dao;
 
 import madx.common.Common;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,97 @@ public class EatJdbcDao {
     
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    public List<Map<String,Object>> queryMemuList(Map<String,Object> param,boolean isPage){
+        List<Object> objList = new ArrayList<>();
+        List<Integer> intList = new ArrayList<>();
+
+        StringBuilder sql = new StringBuilder("SELECT\n");
+
+        if (isPage){
+            sql.append("  m.`id`,\n" +
+                    "  m.`name`,\n" +
+                    "  m.`address`,\n" +
+                    "  m.`max_dian`,\n" +
+                    "  m.`now_dian`,\n" +
+                    "  m.`picture`,\n" +
+                    "  t.`name` TYPE,\n" +
+                    "  c.`code_name` status_str,\n" +
+                    "  m.`remark`,\n" +
+                    "  m.`status`,\n" +
+                    "  DATE_FORMAT(\n" +
+                    "    m.`creation_time`,\n" +
+                    "    '%Y-%m-%d %H:%i:%s'\n" +
+                    "  ) creation_time,\n" +
+                    "  DATE_FORMAT(\n" +
+                    "    m.`modify_time`,\n" +
+                    "    '%Y-%m-%d %H:%i:%s'\n" +
+                    "  ) modify_time \n");
+        }else{
+            sql.append("  COUNT(1) count\n");
+        }
+
+        sql.append("FROM\n" +
+                "  eat_memu m \n" +
+                "  LEFT JOIN eat_type t \n" +
+                "    ON m.`type` = t.`id` \n" +
+                "  LEFT JOIN fix_code c \n" +
+                "    ON m.`status` = c.`code` \n" +
+                "WHERE 1 = 1  \n");
+
+        // max_dian_than_big
+        if (Common.isNotNull(param,"max_dian_than_big",objList)){
+            sql.append("  AND m.`max_dian` >= ? \n");
+            intList.add(Types.INTEGER);
+        }
+
+        // max_dian_than_small
+        if (Common.isNotNull(param,"max_dian_than_small",objList)){
+            sql.append("  AND m.`max_dian` <= ? \n");
+            intList.add(Types.INTEGER);
+        }
+
+        // now_dian_than_big
+        if (Common.isNotNull(param,"now_dian_than_big",objList)){
+            sql.append("  AND m.`now_dian` >= ? \n");
+            intList.add(Types.INTEGER);
+        }
+
+        // now_dian_than_small
+        if (Common.isNotNull(param,"now_dian_than_small",objList)){
+            sql.append("  AND m.`now_dian` <= ? \n");
+            intList.add(Types.INTEGER);
+        }
+
+        // status
+        if (Common.isNotNull(param,"status",objList)){
+            sql.append("  AND m.`status` = ? \n");
+            intList.add(Types.INTEGER);
+        }
+
+        // name
+        Object name = param.get("name");
+        if (name != null && StringUtils.isNotBlank(name.toString())){
+            sql.append("  AND m.`name` LIKE ?\n");
+            objList.add("%"+name.toString().trim()+"%");
+            intList.add(Types.VARCHAR);
+        }
+        
+        // 
+
+        if (isPage){
+            sql.append("ORDER BY m.`creation_time` DESC \n" +
+                    "LIMIT ?, ?");
+            intList.add(Types.INTEGER);
+            objList.add(param.get("pageNumber"));
+            intList.add(Types.INTEGER);
+            objList.add(param.get("pageSize"));
+        }
+
+        System.out.println("EatJdbcDao -> queryMemuList : \n"+sql);
+
+        return jdbcTemplate.queryForList(sql.toString(),objList.toArray(),Common.convertIntArr(intList));
+    }
     
     public List<Map<String,Object>> queryTypeList(Map<String,Object> param,boolean isPage){
         List<Object> objList = new ArrayList<>();
@@ -52,25 +144,25 @@ public class EatJdbcDao {
         
         // max_dian_than_big
         if (Common.isNotNull(param,"max_dian_than_big",objList)){
-            sql.append("  AND e.`max_dian` > ? \n");
+            sql.append("  AND e.`max_dian` >= ? \n");
             intList.add(Types.INTEGER);
         }
         
         // max_dian_than_small
         if (Common.isNotNull(param,"max_dian_than_small",objList)){
-            sql.append("  AND e.`max_dian` < ? \n");
+            sql.append("  AND e.`max_dian` <= ? \n");
             intList.add(Types.INTEGER);
         }
         
         // now_dian_than_big
         if (Common.isNotNull(param,"now_dian_than_big",objList)){
-            sql.append("  AND e.`now_dian` > ? \n");
+            sql.append("  AND e.`now_dian` >= ? \n");
             intList.add(Types.INTEGER);
         }
         
         // now_dian_than_small
         if (Common.isNotNull(param,"now_dian_than_small",objList)){
-            sql.append("  AND e.`now_dian` < ? \n");
+            sql.append("  AND e.`now_dian` <= ? \n");
             intList.add(Types.INTEGER);
         }
         
@@ -79,10 +171,12 @@ public class EatJdbcDao {
             sql.append("  AND e.`status` = ? \n");
             intList.add(Types.INTEGER);
         }
-        
+
         // name
-        if (Common.isNotNull(param,"name",objList)){
-            sql.append("  AND e.`name` LIKE ?\n");
+        Object name = param.get("name");
+        if (name != null && StringUtils.isNotBlank(name.toString())){
+            sql.append("  AND m.`name` LIKE ?\n");
+            objList.add("%"+name.toString().trim()+"%");
             intList.add(Types.VARCHAR);
         }
         
