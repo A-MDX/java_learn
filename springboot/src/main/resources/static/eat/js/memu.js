@@ -15,7 +15,7 @@ var load = function(page){
     console.log('json --> '+json);
     
     $.ajax({
-        url:posturl.baseUrl+"eat/type/list",
+        url:posturl.baseUrl+"eat/memu/list",
         data:json,
         type:'post',
         dataType:'json',

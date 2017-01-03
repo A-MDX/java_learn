@@ -212,6 +212,36 @@ public class EatServiceImpl implements EatService{
         return result;
     }
 
+    @Override
+    public Result queryMenuList(Map<String, Object> param) {
+        Result result = Result.getInstance();
+
+        try {
+            result.setData(commonJdbcService.query(JdbcCommonEnum.EAT_MEMU_LIST,param));
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("jdbc查询报错。",e);
+            result.setMsg("查询服务器报错");
+            result.setCode(Result.RESULT_ERROR);
+        }
+
+        return result;
+    }
+
+    @Override
+    public Result resetMenu(Map<String, Object> param) {
+        Result result = Result.getInstance();
+
+        return result;
+    }
+
+    @Override
+    public Result findOneMenu(Map<String, Object> param) {
+        Result result = Result.getInstance();
+
+        return result;
+    }
+
 
     @Override
     public Result modifyMemu(Map<String, Object> param) {

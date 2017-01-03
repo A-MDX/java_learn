@@ -23,4 +23,10 @@ public interface EatService {
     Result findOneType(Map<String, Object> param);
 
     Result menuType(Map<String, Object> param);
+    
+    Result queryMenuList(Map<String, Object> param);
+
+    Result resetMenu(Map<String, Object> param);
+
+    Result findOneMenu(Map<String, Object> param);
 }

@@ -33,7 +33,7 @@ public class EatJdbcDao {
                     "  m.`max_dian`,\n" +
                     "  m.`now_dian`,\n" +
                     "  m.`picture`,\n" +
-                    "  t.`name` TYPE,\n" +
+                    "  t.`name` type,\n" +
                     "  c.`code_name` status_str,\n" +
                     "  m.`remark`,\n" +
                     "  m.`status`,\n" +

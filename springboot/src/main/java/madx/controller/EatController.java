@@ -22,8 +22,13 @@ public class EatController {
     private EatService eatService;
     
     @RequestMapping(value = "/memu/list",method = RequestMethod.POST)
-    public Result queryMemuList(ServletRequest request){
-        return eatService.queryEatTypeList(Common.getParametersStartingWith(request,"search_"));
+    public Result queryMemuList(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
+                                @RequestParam(value = "page.size", defaultValue = "20") int pageSize,
+                                ServletRequest request){
+        Map<String,Object> param = Common.getParametersStartingWith(request,"search_");
+        param.put("pageNumber",pageNumber);
+        param.put("pageSize",pageSize);
+        return eatService.queryMenuList(param);
     }
 
     @RequestMapping(value = "/memu/modify",method = RequestMethod.POST)
