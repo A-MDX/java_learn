@@ -21,7 +21,7 @@ public class EatController {
     @Autowired
     private EatService eatService;
     
-    @RequestMapping(value = "/memu/list",method = RequestMethod.POST)
+    @RequestMapping(value = "/menu/list",method = RequestMethod.POST)
     public Result queryMemuList(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
                                 @RequestParam(value = "page.size", defaultValue = "20") int pageSize,
                                 ServletRequest request){
@@ -31,18 +31,30 @@ public class EatController {
         return eatService.queryMenuList(param);
     }
 
-    @RequestMapping(value = "/memu/modify",method = RequestMethod.POST)
+    @RequestMapping(value = "/menu/modify",method = RequestMethod.POST)
     public Result modifyMemu(ServletRequest request){
-        Map<String,Object> param = Common.getParametersStartingWith(request,"search_");
+        Map<String,Object> param = Common.getParametersStartingWith(request,"modify_");
         return eatService.modifyMemu(param);
     }
 
-    @RequestMapping(value = "/memu/add",method = RequestMethod.POST)
+    @RequestMapping(value = "/menu/add",method = RequestMethod.POST)
     public Result addMemu(ServletRequest request){
         Map<String,Object> param = Common.getParametersStartingWith(request,"search_");
         return eatService.addMemu(param);
     }
+    
+    @RequestMapping(value = "/menu/one",method = RequestMethod.POST)
+    public Result findOneMenu(ServletRequest request){
+        Map<String,Object> param = Common.getParametersStartingWith(request,"");
+        return eatService.findOneMenu(param);
+    }
 
+    @RequestMapping(value = "/menu/reset",method = RequestMethod.POST)
+    public Result resetMenu(ServletRequest request){
+        Map<String,Object> param = Common.getParametersStartingWith(request,"");
+        return eatService.resetMenu(param);
+    }
+    
     @RequestMapping(value = "/menu/type",method = RequestMethod.POST)
     public Result menuType(ServletRequest request){
         Map<String,Object> param = Common.getParametersStartingWith(request,"search_");

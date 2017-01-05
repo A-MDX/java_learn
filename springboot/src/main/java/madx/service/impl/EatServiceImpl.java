@@ -3,6 +3,7 @@ package madx.service.impl;
 import madx.common.Common;
 import madx.dao.EatMemuDao;
 import madx.dao.EatTypeDao;
+import madx.entity.EatMemuPO;
 import madx.entity.EatTypePO;
 import madx.entity.Result;
 import madx.service.CommonJdbcService;
@@ -232,6 +233,21 @@ public class EatServiceImpl implements EatService{
     public Result resetMenu(Map<String, Object> param) {
         Result result = Result.getInstance();
 
+        Object id = param.get("id");
+        if (id == null || StringUtils.isBlank(id.toString())){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("没传 id 这个参数");
+            return result;
+        }
+
+        EatMemuPO memuPO = eatMemuDao.findOne(Integer.valueOf(id+""));
+        
+        memuPO.setNowDian(memuPO.getMaxDian());
+        memuPO.setModifier(1);
+        memuPO.setModifyTime(new Date());
+        
+        eatMemuDao.save(memuPO);
+        
         return result;
     }
 
@@ -239,6 +255,22 @@ public class EatServiceImpl implements EatService{
     public Result findOneMenu(Map<String, Object> param) {
         Result result = Result.getInstance();
 
+        Object id = param.get("id");
+        if (id == null || StringUtils.isBlank(id.toString())){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("没传 id 这个参数");
+            return result;
+        }
+        
+        EatMemuPO memuPO = eatMemuDao.findOne(Integer.valueOf(id+""));
+        if (memuPO == null){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("根据 id 这个参数"+id+" 没有找到实体。");
+            return result;
+        }
+        
+        result.setData(memuPO);
+        
         return result;
     }
 
@@ -246,14 +278,102 @@ public class EatServiceImpl implements EatService{
     @Override
     public Result modifyMemu(Map<String, Object> param) {
         Result result = Result.getInstance();
+        
+        Object id = param.get("id");
+        if (id == null || StringUtils.isBlank(id.toString())){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("没传 id 这个参数");
+            return result;
+        }
 
+        EatMemuPO eatMemuPO = eatMemuDao.findOne(Integer.valueOf(id+""));
+        if (eatMemuPO == null){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("根据 id 这个参数"+id+" 没有找到实体。");
+            return result;
+        }
+        
+        Object max_dian = param.get("max_dian");
+        if (max_dian != null && StringUtils.isNotBlank(max_dian.toString())){
+            Integer max_dian1 = Integer.valueOf(max_dian.toString());
+            eatMemuPO.setMaxDian(max_dian1);
+            eatMemuPO.setNowDian(max_dian1);
+        }
+
+        Object name = param.get("name");
+        if (name != null && StringUtils.isNotBlank(name.toString())){
+            eatMemuPO.setName(name.toString());
+        }
+
+        Object now_dian = param.get("now_dian");
+        if (now_dian != null && StringUtils.isNotBlank(now_dian.toString())){
+            int now_dian1 = Integer.valueOf(now_dian.toString());
+            if (now_dian1 > eatMemuPO.getMaxDian()){
+                result.setCode(Result.RESULT_PARAME_ERRROR);
+                result.setMsg("传入的 now_dian:"+ now_dian+" 这个参数大于当前最大点数："+eatMemuPO.getMaxDian());
+                return result;
+            }
+            eatMemuPO.setNowDian(now_dian1);
+        }
+
+        Object picture = param.get("picture");
+        if (picture != null && StringUtils.isNotBlank(picture.toString())){
+            eatMemuPO.setPicture(picture.toString());
+        }
+
+        Object remark = param.get("remark");
+        if (remark != null && StringUtils.isNotBlank(remark.toString())){
+            eatMemuPO.setRemark(remark.toString());
+        }
+        
+        Object address = param.get("address");
+        if (address != null && StringUtils.isNotBlank(address.toString())){
+            eatMemuPO.setAddress(address.toString());
+        }
+        
+        Object type = param.get("type");
+        if (type != null && StringUtils.isNotBlank(type.toString())){
+
+            int type_ = 0;
+            try {
+                type_ = Integer.valueOf(type.toString());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                logger.error("传入的 type:"+ type+" 这个参数格式异常。",e);
+                result.setCode(Result.RESULT_PARAME_ERRROR);
+                result.setMsg("传入的 type:"+ type+" 这个参数格式异常。");
+                return result;
+            }
+
+            EatTypePO typePO = eatTypeDao.findOne(type_);
+            if (typePO == null){
+                result.setCode(Result.RESULT_PARAME_ERRROR);
+                result.setMsg("传入的 type:"+ type+" 这个参数没有找到对应类型。");
+                return result;
+            }
+            eatMemuPO.setType(type_);
+        }
+
+        Object status = param.get("status");
+        if (status != null && StringUtils.isNotBlank(status.toString())){
+            eatMemuPO.setStatus(Integer.valueOf(status.toString()));
+        }
+
+        eatMemuPO.setModifyTime(new Date());
+        eatMemuPO.setModifier(1);
+        
+        eatMemuPO = eatMemuDao.save(eatMemuPO);
+        result.setData(eatMemuPO);
+        
         return result;
     }
 
     @Override
     public Result addMemu(Map<String, Object> param) {
         Result result = Result.getInstance();
-
+        
+        
+        
         return result;
     }
     

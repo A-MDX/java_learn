@@ -12,15 +12,15 @@ var load = function(page){
     json['page'] = page;
     json['page.size'] = 5;
     
-    console.log('json --> '+json);
+    // console.log('json --> '+json);
     
     $.ajax({
-        url:posturl.baseUrl+"eat/memu/list",
+        url:posturl.baseUrl+"eat/menu/list",
         data:json,
         type:'post',
         dataType:'json',
         success:function (data) {
-            console.log(data);
+            // console.log(data);
             if (data.code == result.success){
                 data = data.data;
                 
@@ -53,11 +53,15 @@ var load = function(page){
                     var id = data[i]["id"];
                     str += '<td>'+id+'</td>';
                     str += '<td><a onclick="showPic('+id+')" >'+data[i]["name"]+'</a></td>';
-                    str += '<td>'+data[i]["code_name"]+'</td>';
+
+                    str += '<td>'+data[i]["address"]+'</td>';
+                    str += '<td>'+data[i]["type"]+'</td>';
+                    
+                    str += '<td>'+data[i]["status_str"]+'</td>';
                     str += '<td>'+data[i]["max_dian"]+'</td>';
                     str += '<td>'+data[i]["now_dian"]+'</td>';
-                    str += '<td>'+data[i]["creation_time"]+'</td>';
                     
+                    str += '<td>'+data[i]["creation_time"]+'</td>';
                     str += '<td>'+data[i]["modify_time"]+'</td>';
                     str += '<td>'+data[i]["remark"]+'</td>';
 
@@ -146,9 +150,9 @@ $(function () {
     });
 });
 
-// modify_type_dialog 修改类型
+// modify_menu_dialog 修改菜单
 $(function () {
-    $('#modify_type_dialog').dialog({
+    $('#modify_menu_dialog').dialog({
         autoOpen: false,
         show: {
             effect: "blind",
@@ -158,24 +162,24 @@ $(function () {
             effect: "explode",
             duration: 500
         },
-        height: 450,
+        height: 550,
         width: 500,
         modal: true,
         buttons : {
             "重置点数" : function () {
                 var id = $('#modify_id').val();
-                console.log(id);
+                // console.log(id);
                 $.ajax({
-                    url : posturl.baseUrl+"eat/type/reset",
+                    url : posturl.baseUrl+"eat/menu/reset",
                     type : "post",
                     data : {"id" : id},
                     dataType : 'json',
                     success : function (data) {
-                        console.log(data);
+                        // console.log(data);
                         if (data.code == result.success){
-                            jInfo("重置点数成功",info.success);
+                            swal("success","Reset complete.","success");
                             load(1);
-                            $('#modify_type_dialog').dialog('close');
+                            $('#modify_menu_dialog').dialog('close');
                         }else {
                             jInfo("重置点数失败了。"+data.msg,info.danger);
                         }
@@ -217,7 +221,7 @@ $(function () {
                         json['modify_status'] = status;
                         
                         $.ajax({
-                            url : posturl.baseUrl+"eat/type/modify",
+                            url : posturl.baseUrl+"eat/menu/modify",
                             type : "post",
                             data : json,
                             // async : false,
@@ -241,7 +245,13 @@ $(function () {
                         
                         
                     } else {
-                        swal("Cancelled", "This status will be continue :)", "error");
+                        swal({
+                            title : "Cancelled",
+                            text : "This status will be continue :)",
+                            type : "error",
+                            timer : 1500,
+                            showConfirmButton : false
+                        });
                     }
                 });
                 
@@ -249,7 +259,7 @@ $(function () {
             "确认修改" : function () {
                 
                 var json = {};
-                $('#modify_type_dialog').find(".form-control").each(function () {
+                $('#modify_menu_dialog').find(".form-control").each(function () {
                     var val = $(this).val().trim();
                     json[this.name] = val;
                 });
@@ -274,9 +284,8 @@ $(function () {
                 }
                 json['modify_id'] = typeObj.id;
                 console.log(json);
-                
                 $.ajax({
-                    url : posturl.baseUrl+"eat/type/modify",
+                    url : posturl.baseUrl+"eat/menu/modify",
                     type : "post",
                     data : json,
                     dataType : 'json',
@@ -285,7 +294,8 @@ $(function () {
                         if (data.code == result.success){
                             load(1);
                             jInfo("修改成功",info.success);
-                            $('#modify_type_dialog').dialog('close');
+                            swal("success","修改成功","success");
+                            $('#modify_menu_dialog').dialog('close');
                         }else{
                             jInfo("新增失败。"+data.msg,info.danger);
                         }
@@ -314,32 +324,47 @@ $(function(){
     });
 });
 
-// init type
-$(function () {
-
+var initEatTypeSelect = function (id) {
+    // var result = true;
     $.ajax({
         url: posturl.baseUrl + "eat/menu/type",
         type: "post",
+        async : false,
         dataType: 'json',
         success: function (data) {
             // console.log(data);
             if (data.code == result.success) {
-                $('#search_type').empty();
-                $('#search_type').append('<option value="">  食物类型  </option>');
+
+                $('#'+id).empty();
+                $('#'+id).append('<option value="">  食物类型  </option>');
+
                 data = data.data;
                 for (var i=0;i<data.length;i++){
-                    $('#search_type').append("<option value='"+data[i][0]+"'>"+data[i][1]+"</option>");
+                    $('#'+id).append("<option value='"+data[i][0]+"'>"+data[i][1]+"</option>");
                 }
+                // result = true;
             } else {
                 jInfo("初始化食物类型下拉选失败。" + data.msg, info.danger);
+                // result = false;
             }
         },
         error: function (e) {
             console.log(e);
             jInfo("初始化食物类型下拉选失败", info.danger);
+            // result = false;
         }
     });
+    // return result;
+}
+
+
+// init type
+$(function () {
+
+    initEatTypeSelect('search_type');
+   
 });
+
 
 initFixCodeSelect(constant.STATUS,"select_status");
 initTime();
@@ -359,7 +384,7 @@ var modify = function (id) {
     var canModify = true;
 
     $.ajax({
-        url : posturl.baseUrl+"eat/type/one",
+        url : posturl.baseUrl+"eat/menu/one",
         type : "post",
         data : {"id" : id},
         async : false,
@@ -370,7 +395,7 @@ var modify = function (id) {
                 // jInfo("重置点数成功",info.success);
                 typeObj = data.data;
             }else {
-                jInfo("重置点数失败了。"+data.msg,info.danger);
+                jInfo("寻找当前条目失败。"+data.msg,info.danger);
                 canModify = false;
             }
         },
@@ -383,27 +408,25 @@ var modify = function (id) {
 
     console.log(typeObj);
 
+    initEatTypeSelect('modify_type');
+    
     if (!canModify){
         // 未能加载数据，则不能修改
         return;
     }
-
-    // 添值
-    $('#modify_id').val(typeObj.id);
-    $('#modify_name').val(typeObj.name);
-    $('#modify_max_dian').val(typeObj.maxDian);
-    $('#modify_now_dian').val(typeObj.nowDian);
-    $('#modify_picture').val(typeObj.picture);
-    $('#modify_remark').val(typeObj.remark);
     
-    $('#modify_type_dialog').find('.form-control').each(function () {
+    for(var key in typeObj){
+        $('#modify_'+key).val(typeObj[key]);
+    }
+    
+    $('#modify_menu_dialog').find('.form-control').each(function () {
         typeOld[this.name] = $(this).val(); 
     });
     
-    // console.log('typeOld -> '+typeOld);
-    // console.log(typeOld);
+    console.log('typeOld -> '+typeOld);
+    console.log(typeOld);
     
-    $('#modify_type_dialog').dialog('open');
+    $('#modify_menu_dialog').dialog('open');
     
 };
 
@@ -417,7 +440,7 @@ var showPic = function (id) {
         title: "Sweet!",
         text: "This is food here~~~",
         imageUrl: pic,
-        imageSize : "200x200"
+        imageSize : "350x350"
     });
 };
 

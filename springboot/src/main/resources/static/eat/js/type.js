@@ -12,15 +12,12 @@ var load = function(page){
     json['page'] = page;
     json['page.size'] = 5;
     
-    console.log('json --> '+json);
-    
     $.ajax({
         url:posturl.baseUrl+"eat/type/list",
         data:json,
         type:'post',
         dataType:'json',
         success:function (data) {
-            console.log(data);
             if (data.code == result.success){
                 data = data.data;
                 
@@ -241,7 +238,13 @@ $(function () {
                         
                         
                     } else {
-                        swal("Cancelled", "This status will be continue :)", "error");
+                        swal({
+                            title : "Cancelled",
+                            text : "This status will be continue :)",
+                            type : "error",
+                            timer : 2000,
+                            showConfirmButton : false
+                        });
                     }
                 });
                 
@@ -326,7 +329,7 @@ var modify = function (id) {
                 // jInfo("重置点数成功",info.success);
                 typeObj = data.data;
             }else {
-                jInfo("重置点数失败了。"+data.msg,info.danger);
+                jInfo("寻找当前条目失败。"+data.msg,info.danger);
                 canModify = false;
             }
         },
