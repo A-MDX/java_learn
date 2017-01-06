@@ -60,6 +60,7 @@
                 
                 <div class="col-md-12 column" style="text-align: right;">
                     <form class="form-search form-inline" onsubmit="return false;">
+                        <button class="btn btn-default" onclick="addMenu()" ><span class="fa fa-plus-square">&nbsp;</span>再来一个菜单</button>&nbsp;
                         <select class="input_search form-control" name="search_type" id="search_type">
                             <option value="">  食物类型  </option>
 
@@ -174,7 +175,7 @@
     </div>
 </div>
 
-<div id="add_new_type" title="新增吃的类型" style="display: none;font-family:'微软雅黑';">
+<div id="add_new_type" title="新增食物类型" style="display: none;font-family:'微软雅黑';">
     <form class="form-horizontal">
         <table style="width: 99%">
             <thead>
@@ -192,7 +193,7 @@
                 </td>
                 <td>
                     <div class="form-group" >
-                        <input type="text" name="add_name" class="form-control require" placeholder="必填，不要重复" >
+                        <input type="text" name="add_name" class="form-control require" placeholder="必填，最好不要重复" >
                     </div>
                 </td>
             </tr>
@@ -203,7 +204,7 @@
                 </td>
                 <td>
                     <div class="form-group" >
-                        <input type="text" name="add_max_dian" class="form-control require" placeholder="必填，不要重复" >
+                        <input type="number" name="add_max_dian" class="form-control require" placeholder="必填" >
                     </div>
                 </td>
             </tr>
@@ -238,6 +239,93 @@
         </table>
     </form>
 </div>
+
+<div id="add_new_menu" title="新增食物菜单" style="display: none;font-family:'微软雅黑';">
+    <form class="form-horizontal">
+        <table style="width: 99%">
+            <thead>
+            <tr>
+                <th width="25%"></th>
+                <th width="75%"></th>
+            </tr>
+            </thead>
+            <tbody>
+
+
+            <tr style="height: 20px">
+                <td >
+                    <span style="color: red;">* </span>名称：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" name="add_name" class="form-control require" placeholder="必填" >
+                    </div>
+                </td>
+            </tr>
+            
+            <tr style="height: 20px">
+                <td >
+                    <span style="color: red;">* </span>食物类型：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <select name="add_type" id="add_type" class="form-control require">
+
+                        </select>
+                    </div>
+                </td>
+            </tr>
+
+            <tr style="height: 20px">
+                <td >
+                    <span style="color: red;">* </span>最大点数：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="number" name="add_max_dian" class="form-control require" placeholder="必填" >
+                    </div>
+                </td>
+            </tr>
+
+            <tr style="height: 20px">
+                <td >
+                    &nbsp;&nbsp;&nbsp;地址：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" name="add_address" class="form-control" placeholder="这个..地址" >
+                    </div>
+                </td>
+            </tr>
+
+            <tr style="height: 20px">
+                <td >
+                    &nbsp;&nbsp;&nbsp;图片地址：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" name="add_picture" class="form-control" placeholder="图片，上传微博，然后复制图片地址">
+                    </div>
+                </td>
+            </tr>
+
+            <tr style="height: 20px">
+                <td >
+                    &nbsp;&nbsp;&nbsp;备注信息：
+                </td>
+                <td>
+                    <div class="form-group" >
+                        <input type="text" name="add_remark" class="form-control" placeholder="备注信息">
+                    </div>
+                </td>
+            </tr>
+
+            </tbody>
+
+        </table>
+    </form>
+</div>
+
 
 <div id="modify_menu_dialog" title="修改吃的菜单" style="display: none;font-family:'微软雅黑';">
     

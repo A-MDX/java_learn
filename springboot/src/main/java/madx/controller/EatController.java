@@ -39,7 +39,7 @@ public class EatController {
 
     @RequestMapping(value = "/menu/add",method = RequestMethod.POST)
     public Result addMemu(ServletRequest request){
-        Map<String,Object> param = Common.getParametersStartingWith(request,"search_");
+        Map<String,Object> param = Common.getParametersStartingWith(request,"add_");
         return eatService.addMemu(param);
     }
     

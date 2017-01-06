@@ -150,6 +150,64 @@ $(function () {
     });
 });
 
+// add_new_menu 新增菜单
+$(function () {
+    $('#add_new_menu').dialog({
+        autoOpen: false,
+        show: {
+            effect: "blind",
+            duration: 500
+        },
+        hide: {
+            effect: "explode",
+            duration: 500
+        },
+        height: 500,
+        width: 500,
+        modal: true,
+        buttons : {
+            "确认新增" : function () {
+                var require = true;
+                $('#add_new_menu').find(".require").each(function () {
+                    var val = $(this).val().trim();
+                    if (val == null || val == ''){
+                        require = false;
+                    }
+                });
+                if (!require){
+                    jInfo("有必填项没有填写完成。",info.warning);
+                    return;
+                }
+                var json = {};
+                $('#add_new_menu').find(".form-control").each(function () {
+                    var val = $(this).val().trim();
+                    json[this.name] = val;
+                });
+                console.log(json);
+                $.ajax({
+                    url : posturl.baseUrl+"eat/menu/add",
+                    type : "post",
+                    data : json,
+                    dataType : 'json',
+                    success : function (data) {
+                        console.log(data);
+                        if (data.code == result.success){
+                            load(1);
+                            jInfo("新增成功",info.success);
+                            $('#add_new_menu').dialog('close');
+                        }else{
+                            jInfo("新增失败。"+data.msg,info.danger);
+                        }
+                    }
+                });
+            },
+            "取消" : function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+});
+
 // modify_menu_dialog 修改菜单
 $(function () {
     $('#modify_menu_dialog').dialog({
@@ -358,20 +416,26 @@ var initEatTypeSelect = function (id) {
 }
 
 
-// init type
+// init 
 $(function () {
 
     initEatTypeSelect('search_type');
+    initFixCodeSelect(constant.STATUS,"select_status");
+    initTime();
    
 });
 
 
-initFixCodeSelect(constant.STATUS,"select_status");
-initTime();
+
 
 
 var addType = function () {
     $('#add_new_type').dialog('open');
+}
+
+var addMenu = function () {
+    initEatTypeSelect('add_type');
+    $('#add_new_menu').dialog('open');
 }
 
 // 一个全局的修改对象

@@ -371,8 +371,55 @@ public class EatServiceImpl implements EatService{
     @Override
     public Result addMemu(Map<String, Object> param) {
         Result result = Result.getInstance();
+        System.out.println("param --> "+param);
         
+        Object name = param.get("name");
+        if (name == null || StringUtils.isBlank(name.toString())){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("没传 name 这个参数");
+            return result;
+        }
+        Object max_dian = param.get("max_dian");
+        if (max_dian == null || StringUtils.isBlank(max_dian.toString())){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("没传 max_dian 这个参数");
+            return result;
+        }
+        Object type = param.get("type");
+        if (type == null || StringUtils.isBlank(type.toString())){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("没传 type 这个参数");
+            return result;
+        }
         
+        EatMemuPO eatMemuPO = new EatMemuPO();
+        
+        eatMemuPO.setType(Integer.valueOf(type.toString()));
+        eatMemuPO.setName(name.toString());
+        eatMemuPO.setMaxDian(Integer.valueOf(max_dian.toString()));
+        eatMemuPO.setNowDian(eatMemuPO.getMaxDian());
+        eatMemuPO.setStatus(Common.STATUS_YES);
+        eatMemuPO.setCreator(1);
+        eatMemuPO.setCreationTime(new Date());
+       
+        Object picture = param.get("picture");
+        if (picture != null && StringUtils.isNotBlank(picture.toString())){
+            eatMemuPO.setPicture(picture.toString());
+        }
+
+        Object remark = param.get("remark");
+        if (remark != null && StringUtils.isNotBlank(remark.toString())){
+            eatMemuPO.setRemark(remark.toString());
+        }
+
+        Object address = param.get("address");
+        if (address != null && StringUtils.isNotBlank(address.toString())){
+            eatMemuPO.setAddress(address.toString());
+        }
+        
+        eatMemuPO = eatMemuDao.save(eatMemuPO);
+        
+        result.setData(eatMemuPO);
         
         return result;
     }
