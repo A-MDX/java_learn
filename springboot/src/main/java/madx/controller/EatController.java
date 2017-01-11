@@ -95,4 +95,20 @@ public class EatController {
         return eatService.findOneType(param);
     }
     
+    @RequestMapping(value = "/random/type",method = {RequestMethod.POST,RequestMethod.GET})
+    public Result randomType(){
+        return eatService.randomType();
+    }
+    
+    @RequestMapping(value = "random/menu",method = RequestMethod.POST)
+    public Result randomMenu(ServletRequest request){
+        return eatService.randomMenu(Common.getParametersStartingWith(request,""));
+    }
+    
+    @RequestMapping(value = "random/onlymenu",method = {RequestMethod.GET,RequestMethod.POST})
+    public Result randomOnlyMenu(){
+        return eatService.randomOnlyMenu();
+    }
+    
+    
 }

@@ -29,4 +29,10 @@ public interface EatService {
     Result resetMenu(Map<String, Object> param);
 
     Result findOneMenu(Map<String, Object> param);
+    
+    Result randomType();
+    
+    Result randomOnlyMenu();
+    
+    Result randomMenu(Map<String, Object> param);
 }

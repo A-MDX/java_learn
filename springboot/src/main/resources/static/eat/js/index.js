@@ -1,111 +1,196 @@
 
-// init 统计模块
-$(function () {
-    $('#count_dialog').dialog({
-        autoOpen: false,
-        show: {
-            effect: "drop",
-            duration: 500
-        },
-        hide: {
-            effect: "flod",
-            duration: 500
-        },
-        height: 250,
-        width: 300,
-        modal: true,
-        buttons : {
-            "确认": function () {
-                var userid = $('#count_dialog_userid').val();
-                if (userid == ''){
-                    jInfo("要选择用户",info.warning);
-                    return;
-                }
-                $.ajax({
-                    url : posturl.baseUrl+'/line/line/count',
-                    data : {'userid':userid},
-                    type : 'get',
-                    dataType : 'json',
-                    success : function (data) {
-                        console.log(data);
-                      if (data.code != result.success){
-                          jInfo("统计失败。"+data.msg,info.danger);
-                      }else {
-                          // success... 
-                          $('#count_dialog').dialog('close');
-                          data = data.data;
-
-                          swal({
-                              title: "Success!",
-                              text: "这里是统计结果:\n" +
-                              "当前用户名称 ：<span style='color:red;'>"+data['user_name']+"</span><br>" +
-                              "当前文件数目 ：<span style='color:red;'>"+data['java_file']+"</span><br>" +
-                              "当前java行数 ：<span style='color:red;'>"+data['java_line']+"</span>",
-                              type: "success",
-                              confirmButtonText: "Cool",
-                              html : true
-                          });
-                          
-                          
-                          // $('#count_dialog_result_name').html(data['user_name']);
-                          // $('#count_dialog_result_java_file').html(data['java_file']);
-                          // $('#count_dialog_result_java_line').html(data['java_line']);
-                          // $('#count_dialog_result').dialog('open');
-                          
-                      }
-                       
-                    },
-                    error : function (e) {
-                        jInfo('出错',info.danger);
-                        console.log(e);
-                    }
-                });
-            },
-            "取消" : function () {
-                $(this).dialog('close');
-            }
-            
-        }
-    });
+// 随机种类 
+var randomType = function () {
     
-    
-    
-});
-
-var open_count_dialog = function () {
-    
-    $('#count_dialog_userid').empty();
-    $('#count_dialog_userid').append('<option value="">选择</option>');
-    initUserSelect("count_dialog_userid");
-    $('#count_dialog').dialog('open');
-}
-
-$(function () {
     $.ajax({
-       url : posturl.baseUrl+'line/user/msg',
-        type : 'get',
+        url : posturl.baseUrl+"eat/random/type",
+        type : "get",
+        async : false,
         dataType : 'json',
         success : function (data) {
             console.log(data);
             if (data.code == result.success){
-                $('#index_user_msg').empty();
                 data = data.data;
-                for (var i=0;i<data.length;i++){
-                    var str = '<tr>';
-                    str += '<td>'+data[i]['id']+'</td>';
-                    str += '<td>'+data[i]['name']+'</td>';
-                    str += '<td>'+data[i]['javaLine']+'</td>';
-                    str += '</tr>';
-                    $('#index_user_msg').append(str);
-                }
+                var pic = data['picture'];
+                
+                swal({
+                    title: "Sweet!",
+                    text: "This is food type here~~~",
+                    imageUrl: pic,
+                    imageSize : "350x350",
+                    timer : 1500,
+                    showConfirmButton : false
+                });
+
+                var id = data['id'];
+                $('#search_type').val(id);
+                $('#type_id').val(id);
+
+                $('#div_pic_type').empty();
+                $('#div_pic_type').append('<img src="'+pic+'" class="img-responsive center-block">')
+
             }else {
-                jInfo('加载user 信息失败',info.danger);
+                swal("Fail","There has some wrong thing."+data.msg,"error");
             }
+            
         },
         error : function (e) {
-            jInfo("修改失败,点击f12调试吧。",info.danger);
             console.log(e);
+            swal("Fail","There has some wrong things.Enter F12 to see.","error");
         }
     });
-});
+    
+}
+
+// 直接随机菜单
+var randomOnlyMenu = function () {
+    $.ajax({
+        url : posturl.baseUrl+"eat/random/onlymenu",
+        type : "get",
+        dataType : 'json',
+        success : function (data) {
+            console.log(data);
+            if (data.code == result.success){
+                data = data.data;
+
+                menuObj = data;
+                
+                var pic = data['picture'];
+
+                swal({
+                    title: "Sweet!",
+                    text: "This is food type here~~~",
+                    imageUrl: pic,
+                    imageSize : "350x350",
+                    timer : 1500,
+                    showConfirmButton : false
+                });
+
+                $('type_id').val();
+            }else {
+                swal("Fail","There has some wrong things."+data.msg,"error");
+            }
+
+        },
+        error : function (e) {
+            console.log(e);
+            swal("Fail","There has some wrong things.Enter F12 to see.","error");
+        }
+    });
+}
+
+var randomMenu = function () {
+    var type_id = $('#type_id').val();
+    
+    if (type_id == ''){
+        randomType();
+        type_id = $('#type_id').val();
+        if (type_id == ''){
+            swal("Fail","I can't find type_id...","error");
+            return;
+        }
+    }
+
+    var json = {};
+    
+    json['type'] = type_id;
+    
+    $.ajax({
+        url : posturl.baseUrl+"eat/random/menu",
+        type : "post",
+        data : json,
+        dataType : 'json',
+        success : function (data) {
+            console.log(data);
+            if (data.code == result.success){
+                data = data.data;
+                
+                menuObj = data;
+                
+                var pic = data['picture'];
+
+                swal({
+                    title: "Sweet!",
+                    text: "This is food type here~~~",
+                    imageUrl: pic,
+                    imageSize : "350x350",
+                    timer : 1500,
+                    showConfirmButton : false
+                });
+                
+                $('#div_pic_menu').empty();
+                $('#div_pic_menu').append('<img src="'+pic+'" class="img-responsive center-block" >');
+                
+            }else {
+                swal("Fail","There has some wrong things.\n"+data.msg,"error");
+            }
+
+        },
+        error : function (e) {
+            console.log(e);
+            swal("Fail","There has some wrong things.Enter F12 to see.","error");
+        }
+    });
+    
+}
+
+var resetType = function () {
+    $('#search_type').val('');
+    $('#type_id').val('');
+    $('#div_pic_type').empty();
+    $('#div_pic_type').append('<img src="http://ww4.sinaimg.cn/mw1024/7d191febgw1fbln33qmrrj20500503yg.jpg" class="img-responsive center-block">');
+}
+
+
+var menuObj = {};
+var showMenuInfo = function () {
+    var id = menuObj['id'];
+    if (id == null || id == ''){
+        return;
+    }
+
+    swal({
+        title: "Sweet!",
+        text: "This is food type here~~~",
+        imageUrl: menuObj['picture'],
+        imageSize : "350x350"
+        
+    });
+    
+}
+
+var initEatTypeSelect = function (id) {
+    // var result = true;
+    $.ajax({
+        url: posturl.baseUrl + "eat/menu/type",
+        type: "post",
+        async : false,
+        dataType: 'json',
+        success: function (data) {
+            // console.log(data);
+            if (data.code == result.success) {
+
+                $('#'+id).empty();
+                $('#'+id).append('<option value="">  食物类型  </option>');
+
+                data = data.data;
+                for (var i=0;i<data.length;i++){
+                    $('#'+id).append("<option value='"+data[i][0]+"'>"+data[i][1]+"</option>");
+                }
+                // result = true;
+            } else {
+                jInfo("初始化食物类型下拉选失败。" + data.msg, info.danger);
+                // result = false;
+            }
+        },
+        error: function (e) {
+            console.log(e);
+            jInfo("初始化食物类型下拉选失败", info.danger);
+            // result = false;
+        }
+    });
+    // return result;
+}
+initEatTypeSelect('search_type');
+
 

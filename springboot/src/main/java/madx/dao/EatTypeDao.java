@@ -13,4 +13,7 @@ public interface EatTypeDao extends JpaRepository<EatTypePO,Integer> {
 
     @Query("select t.id,t.name from EatTypePO t")
     List<Object[]> findIdAndName();
+    
+    List<EatTypePO> findByStatus(Integer status);
+    
 }

@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by A-mdx on 2016/12/26.
@@ -34,6 +36,8 @@ public class EatServiceImpl implements EatService{
     
     @Autowired
     private CommonJdbcService commonJdbcService;
+
+    Random random = new Random();
     
     
     @Override
@@ -271,6 +275,162 @@ public class EatServiceImpl implements EatService{
         
         result.setData(memuPO);
         
+        return result;
+    }
+
+    @Override
+    public Result randomType() {
+        Result result = Result.getInstance();
+        List<EatTypePO> types = eatTypeDao.findByStatus(Common.STATUS_YES);
+        
+        int max = 0;
+        for (EatTypePO po : types){
+            if (po.getNowDian() != null){
+                max += po.getNowDian();
+            }else{
+                logger.error("这个菜单状态异常，无法取得当前点数 -> "+po);
+                result.setMsg("查询服务器报错 : "+po.getId());
+                result.setCode(Result.RESULT_ERROR);
+                return result;
+            }
+        }
+
+        int rand_int = random.nextInt(max)+1;
+        
+        int num = 0;
+        int num2 = 0;
+        int size = types.size();
+        for(int i = 0; i<size; i++){
+            num += types.get(i).getNowDian();
+            if (num >= rand_int){
+                num2 = i;
+                break;
+            }
+        }
+        EatTypePO typePO = types.get(num2);
+        typePO.setModifier(1);
+        typePO.setModifyTime(new Date());
+        if (typePO.getNowDian() > 1){
+            typePO.setNowDian(typePO.getNowDian()-1);
+        }
+        typePO = eatTypeDao.save(typePO);
+        
+        result.setData(typePO);
+        return result;
+    }
+
+    @Override
+    public Result randomOnlyMenu() {
+        Result result = Result.getInstance();
+        
+        List<EatMemuPO> menus = eatMemuDao.findByStatus(Common.STATUS_YES);
+        
+        int max = 0;
+        for(EatMemuPO po : menus){
+            if (po.getNowDian() != null){
+                max += po.getNowDian();
+            }else{
+                logger.error("这个菜单状态异常，无法取得当前点数 -> "+po);
+                result.setMsg("查询当前点数失败-> id :"+po.getId());
+                result.setCode(Result.RESULT_ERROR);
+                return result;
+            }
+        }
+
+        int rand_int = random.nextInt(max)+1;
+        
+        int num = 0;
+        int num2 = 0;
+        int size = menus.size();
+        for(int i = 0; i<size; i++){
+            num += menus.get(i).getNowDian();
+            if (num >= rand_int){
+                num2 = i;
+                break;
+            }
+        }
+        
+        EatMemuPO memuPO = menus.get(num2);
+        memuPO.setModifier(1);
+        memuPO.setModifyTime(new Date());
+        
+        if (memuPO.getNowDian() > 1){
+            memuPO.setNowDian(memuPO.getNowDian()-1);
+        }
+        
+        memuPO = eatMemuDao.save(memuPO);
+        
+        result.setData(memuPO);
+
+        return result;
+    }
+
+    @Override
+    public Result randomMenu(Map<String, Object> param) {
+        Result result = Result.getInstance();
+        
+        Object type = param.get("type");
+        if (type == null || StringUtils.isBlank(type.toString())){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("没传 type 这个参数");
+            return result;
+        }
+        int type_ = 0;
+        try {
+            type_ = Integer.valueOf(type.toString());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            logger.error("Type 这个参数异常: "+type,e);
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("Type 这个参数异常: "+type);
+            return result;
+        }
+
+        List<EatMemuPO> menus = eatMemuDao.findByStatusAndType(Common.STATUS_YES,type_);
+
+        if (menus.size() == 0){
+            result.setCode(Result.RESULT_PARAME_ERRROR);
+            result.setMsg("Type 这个参数下,没有找到有效菜单:"+type);
+            return result;
+        }
+        
+        int max = 0;
+        for(EatMemuPO po : menus){
+            if (po.getNowDian() != null){
+                max += po.getNowDian();
+            }else{
+                logger.error("这个菜单状态异常,无法取得当前点数 -> "+po);
+                result.setMsg("查询当前点数失败-> id :"+po.getId());
+                result.setCode(Result.RESULT_ERROR);
+                return result;
+            }
+        }
+        
+        int rand_int = random.nextInt(max)+1;
+
+        int num = 0;
+        int num2 = 0;
+        int size = menus.size();
+        for(int i = 0; i<size; i++){
+            num += menus.get(i).getNowDian();
+            if (num >= rand_int){
+                num2 = i;
+                break;
+            }
+        }
+
+        EatMemuPO memuPO = menus.get(num2);
+        memuPO.setModifier(1);
+        memuPO.setModifyTime(new Date());
+
+        if (memuPO.getNowDian() > 1){
+            memuPO.setNowDian(memuPO.getNowDian()-1);
+        }
+
+        memuPO = eatMemuDao.save(memuPO);
+
+        result.setData(memuPO);
+
         return result;
     }
 
