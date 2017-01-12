@@ -56,17 +56,24 @@ var randomOnlyMenu = function () {
                 menuObj = data;
                 
                 var pic = data['picture'];
+                
+                var str = '<br/>';
+                str += 'name : '+menuObj['name'];
+                str += '<br/>address : '+menuObj['address'];
+                str += '<br/>remark : '+menuObj['remark'];
 
                 swal({
                     title: "Sweet!",
-                    text: "This is food type here~~~",
+                    text: "This is food type here~~~"+str,
                     imageUrl: pic,
                     imageSize : "350x350",
-                    timer : 1500,
-                    showConfirmButton : false
+                    timer : 2500,
+                    html : true
                 });
 
-                $('type_id').val();
+                $('#div_pic_menu').empty();
+                $('#div_pic_menu').append('<img src="'+pic+'" class="img-responsive center-block" >');
+                
             }else {
                 swal("Fail","There has some wrong things."+data.msg,"error");
             }
@@ -82,14 +89,24 @@ var randomOnlyMenu = function () {
 var randomMenu = function () {
     var type_id = $('#type_id').val();
     
+    var isContinue = false;
+    
     if (type_id == ''){
         randomType();
+        isContinue = true;
         type_id = $('#type_id').val();
         if (type_id == ''){
             swal("Fail","I can't find type_id...","error");
             return;
         }
     }
+    
+    if (isContinue){
+        setTimeout("randomMenu()",1500);
+        return;
+    }
+    
+    console.log("type_id --> "+type_id);
 
     var json = {};
     
@@ -109,13 +126,19 @@ var randomMenu = function () {
                 
                 var pic = data['picture'];
 
+                var str = '<br/>';
+                str += 'name : '+menuObj['name'];
+                str += '<br/>address : '+menuObj['address'];
+                str += '<br/>remark : '+menuObj['remark'];
+
                 swal({
                     title: "Sweet!",
-                    text: "This is food type here~~~",
+                    text: "This is food type here~~~"+str,
                     imageUrl: pic,
                     imageSize : "350x350",
                     timer : 1500,
-                    showConfirmButton : false
+                    showConfirmButton : false,
+                    html : true
                 });
                 
                 $('#div_pic_menu').empty();
@@ -149,12 +172,44 @@ var showMenuInfo = function () {
         return;
     }
 
+    var str = '<br/>';
+    str += 'name : '+menuObj['name'];
+    str += '<br/>address : '+menuObj['address'];
+    str += '<br/>remark : '+menuObj['remark'];
+
     swal({
         title: "Sweet!",
-        text: "This is food type here~~~",
+        text: "This is food type here~~~"+str,
         imageUrl: menuObj['picture'],
-        imageSize : "350x350"
-        
+        imageSize : "350x350",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Ok, just you!",
+        cancelButtonText: "No, cancel it",
+        closeOnConfirm: false,
+        closeOnCancel: false,
+        html: true
+    },function (isConfirm) {
+        if (!isConfirm){
+            
+            
+            swal({
+                title : "Cancelled",
+                text : "All right.I will change this :)",
+                type : "warning",
+                timer : 1500,
+                showConfirmButton : false
+            });
+
+            var type_id = $('#type_id').val();
+            if (type_id == ''){
+                randomOnlyMenu();
+            }else{
+                randomMenu();
+            }
+        }else{
+            swal("OK","Now ,let's go.","success");
+        }
     });
     
 }
@@ -192,5 +247,12 @@ var initEatTypeSelect = function (id) {
     // return result;
 }
 initEatTypeSelect('search_type');
+
+$(function () {
+    $('#div_pic_menu').click(function () {
+        console.log(123);
+        showMenuInfo();
+    });
+})
 
 

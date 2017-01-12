@@ -34,11 +34,11 @@ CREATE TABLE `eat_memu` (
   `modify_time` datetime DEFAULT NULL,
   `modifier` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Data for the table `eat_memu` */
 
-insert  into `eat_memu`(`id`,`name`,`address`,`type`,`status`,`max_dian`,`now_dian`,`picture`,`remark`,`creation_time`,`creator`,`modify_time`,`modifier`) values (1,'黄焖老土豆','上海定西路小巷子',2,10021001,21,21,'http://ww3.sinaimg.cn/mw690/72689c07gw1fbemucvmtcj21kw11x7ct.jpg','我还是想来测试一下。','2017-01-04 20:01:51',1,'2017-01-05 17:51:26',1),(2,'红烧牛肉面','小巷子口',1,10021001,20,NULL,'http://ww2.sinaimg.cn/mw690/7d191febgw1fbh27p2w6aj20ge0gewg7.jpg','测试成功吧','2017-01-06 17:57:28',1,NULL,NULL);
+insert  into `eat_memu`(`id`,`name`,`address`,`type`,`status`,`max_dian`,`now_dian`,`picture`,`remark`,`creation_time`,`creator`,`modify_time`,`modifier`) values (1,'黄焖老土豆','上海定西路小巷子',2,10021001,21,21,'http://ww3.sinaimg.cn/mw690/72689c07gw1fbemucvmtcj21kw11x7ct.jpg','我还是想来测试一下。','2017-01-04 20:01:51',1,'2017-01-12 15:11:46',1),(2,'红烧牛肉面','小巷子口',1,10021001,20,10,'http://ww2.sinaimg.cn/mw690/7d191febgw1fbh27p2w6aj20ge0gewg7.jpg','测试成功吧','2017-01-06 17:57:28',1,'2017-01-12 15:03:43',1),(3,'好吃不贵米饭套餐','某某路某某街',3,10021001,20,18,'http://ww2.sinaimg.cn/mw690/7d191febgw1fbnv5bikq2j209v09vmxx.jpg','真好吃','2017-01-12 15:10:06',1,'2017-01-12 15:11:15',1);
 
 /*Table structure for table `eat_type` */
 
@@ -61,7 +61,7 @@ CREATE TABLE `eat_type` (
 
 /*Data for the table `eat_type` */
 
-insert  into `eat_type`(`id`,`name`,`status`,`max_dian`,`now_dian`,`picture`,`remark`,`creation_time`,`creator`,`modify_time`,`modifier`) values (1,'拉面',10021001,20,20,'http://ww3.sinaimg.cn/mw690/7d191febgw1fb6ioe3k74j20jg0czdhc.jpg','好吃的，哈哈哈哈哈哈哈','2016-12-26 17:57:56',1,'2017-01-05 15:23:00',1),(2,'黄焖鸡1',10021001,21,17,'http://ww1.sinaimg.cn/mw690/7d191febgw1fb8uekvzqwj20ht0aa3zs.jpg','还行,EN132','2016-12-28 16:05:03',1,'2016-12-30 15:21:31',1),(3,'大白米饭',10021001,20,NULL,'http://ww3.sinaimg.cn/mw690/7d191febgw1fb7o4f6vnjj20go0bm404.jpg','普通大白米饭','2016-12-29 15:18:05',1,NULL,NULL);
+insert  into `eat_type`(`id`,`name`,`status`,`max_dian`,`now_dian`,`picture`,`remark`,`creation_time`,`creator`,`modify_time`,`modifier`) values (1,'拉面',10021001,20,16,'http://ww3.sinaimg.cn/mw690/7d191febgw1fb6ioe3k74j20jg0czdhc.jpg','好吃的，哈哈哈哈哈哈哈','2016-12-26 17:57:56',1,'2017-01-12 10:41:12',1),(2,'黄焖鸡1',10021001,21,13,'http://ww1.sinaimg.cn/mw690/7d191febgw1fb8uekvzqwj20ht0aa3zs.jpg','还行,EN132','2016-12-28 16:05:03',1,'2017-01-12 10:52:24',1),(3,'大白米饭',10021001,20,15,'http://ww3.sinaimg.cn/mw690/7d191febgw1fb7o4f6vnjj20go0bm404.jpg','普通大白米饭','2016-12-29 15:18:05',1,'2017-01-12 10:40:53',1);
 
 /*Table structure for table `fix_code` */
 
