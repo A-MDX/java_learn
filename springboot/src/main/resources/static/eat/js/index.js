@@ -255,4 +255,18 @@ $(function () {
     });
 })
 
+$(function () {
+    
+    window.data1 = {'hehe':'ok','No':'yes'}
+    console.log(window.data1);
+    console.log(document.URL);
+    console.log(window.location.href);
+    console.log(window.location.pathname);
+    console.log(window.location);
+    console.log(document);
+    console.log(window.location.search);
+    var url1 = window.location.search;
+    url1 = url1.replace('?','');
+    console.log(url1)
+})
 

@@ -22,6 +22,28 @@
         body{
             font-family: '微软雅黑';
         }
+        #loadDialog{
+            position: absolute;
+            width: 310px;
+            height: 460px;
+            display: none;
+        }
+        .loadDialog{
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 75px;
+            height: 75px;
+            border-radius: 5px;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            z-index: 9;
+            text-align: center;
+            color: #fff;
+            line-height: 85px;
+        }
     </style>
 </head>
 <body>
@@ -115,6 +137,12 @@
 </div>
 
 <div title="来次统计" id="count_dialog" style="font-family: '微软雅黑';display: none;">
+
+    <div id="loadDialog">
+        <div class="loadDialog">
+            <i class="fa fa-circle-o-notch fa-spin fa-2x"></i>
+        </div>
+    </div>
     <p>
         选择一个用户，然后直接进行统计。
     </p>

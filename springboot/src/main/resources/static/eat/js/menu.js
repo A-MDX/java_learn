@@ -511,3 +511,6 @@ var showPic = function (id) {
 load(1);
 
 
+$(function () {
+    console.log(window.data1);
+})

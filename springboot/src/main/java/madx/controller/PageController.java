@@ -1,5 +1,7 @@
 package madx.controller;
 
+import madx.common.Common;
+import madx.entity.Result;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,6 +47,13 @@ public class PageController {
         System.out.println(request.getParameter("startPhone"));
         return "123456";
     }
+    
+    @RequestMapping(value = "/test/group",method = RequestMethod.POST)
+    public @ResponseBody Result test11(ServletRequest request){
+        Map<String,Object> map = Common.getParametersStartingWith(request,"");
+        System.out.println("map --> : "+map);
+        return Result.getInstance();
+    } 
 
     
 }

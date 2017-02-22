@@ -6,14 +6,14 @@
 /** *公共的宏变量定义** */
 (function () {
     posturl = {};
-    posturl.baseUrl = 'http://localhost:8080/';
+    posturl.baseUrl = 'http://23.105.212.206:8080/';
     
 })();
 
 /** *关于 result code 说明*/
 (function () {
     result = {};
-    result.success = 50;
+    result.success = 50; 
     result.error = 0;
     result.param_error = 5;
 })();

@@ -129,6 +129,12 @@ public class CountJavaServiceImpl implements CountJavaService{
         result.setCode(Result.RESULT_SUCCESS);
         result.setMsg("ok");
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         return result;
     }
 
@@ -353,25 +359,25 @@ public class CountJavaServiceImpl implements CountJavaService{
         
     }
 
-    public static void main(String[] args) {
-        CountJavaServiceImpl im = new CountJavaServiceImpl();
-        List<String> filePaths = new ArrayList<>();
-        im.queryAllDir("C:\\Users\\A-mdx\\Desktop\\java学习\\java_learn",filePaths);
-        System.out.println("files --> "+filePaths);
-
-        int lines = 0;
-        for (String fileDir : filePaths){
-            try {
-                int line = im.readLine(fileDir);
-                lines += line;
-                System.out.println(fileDir+" --> "+line);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        System.out.println("size : "+filePaths.size());
-        System.out.println("line : "+lines);
-        
-    }
+//    public static void main(String[] args) {
+//        CountJavaServiceImpl im = new CountJavaServiceImpl();
+//        List<String> filePaths = new ArrayList<>();
+//        im.queryAllDir("C:\\Users\\A-mdx\\Desktop\\java学习\\java_learn",filePaths);
+//        System.out.println("files --> "+filePaths);
+//
+//        int lines = 0;
+//        for (String fileDir : filePaths){
+//            try {
+//                int line = im.readLine(fileDir);
+//                lines += line;
+//                System.out.println(fileDir+" --> "+line);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        System.out.println("size : "+filePaths.size());
+//        System.out.println("line : "+lines);
+//        
+//    }
     
 }
