@@ -6,7 +6,8 @@
 /** *公共的宏变量定义** */
 (function () {
     posturl = {};
-    posturl.baseUrl = 'http://23.105.212.206:8080/';
+    // 23.105.212.206
+    posturl.baseUrl = 'http://localhost:8080/';
     
 })();
 
