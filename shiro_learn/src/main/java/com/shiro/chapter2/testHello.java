@@ -25,7 +25,7 @@ public class testHello {
 		SecurityUtils.setSecurityManager(securityManager);
 		// 3.得到subject及创建token -> user/pwd 验证
 		Subject subject = SecurityUtils.getSubject();
-		UsernamePasswordToken token = new UsernamePasswordToken("zhang","123");
+		UsernamePasswordToken token = new UsernamePasswordToken("zhang","1231");
 		
 		// 4.测试登录
 		try {
@@ -42,4 +42,37 @@ public class testHello {
 		System.out.println("进来了。");
 	}
 	
+	@Test
+	public void testRealm1(){
+		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:chapter2/shiro-realm.ini");
+		SecurityManager securityManager = factory.getInstance();
+		SecurityUtils.setSecurityManager(securityManager);
+		Subject subject = SecurityUtils.getSubject();
+		UsernamePasswordToken token = new UsernamePasswordToken("zhang1", "123");
+		try {
+			subject.login(token);
+		} catch (AuthenticationException e) {
+			e.printStackTrace();
+		}
+		Assert.assertEquals(true, subject.isAuthenticated());
+		subject.logout();
+
+	}
+	
+	@Test
+	public void testRealmJdbc(){
+		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:chapter2/shiro-mysql.ini");
+		SecurityManager securityManager = factory.getInstance();
+		SecurityUtils.setSecurityManager(securityManager);
+		Subject subject = SecurityUtils.getSubject();
+		UsernamePasswordToken token = new UsernamePasswordToken("zhang", "123");
+		try {
+			subject.login(token);
+		} catch (AuthenticationException e) {
+			e.printStackTrace();
+		}
+		Assert.assertEquals(true, subject.isAuthenticated());
+		subject.logout();
+
+	}
 }

@@ -14,10 +14,11 @@
         <option value="$PROJECT_DIR$/springboot/pom.xml" />
         <option value="$PROJECT_DIR$/annotation/pom.xml" />
         <option value="$PROJECT_DIR$/socket/pom.xml" />
+        <option value="$PROJECT_DIR$/shiro_learn/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_3" default="false" assert-keyword="false" jdk-15="false">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_3" default="false">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

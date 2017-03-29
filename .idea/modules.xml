@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/chinaChess/chinaChess.iml" filepath="$PROJECT_DIR$/chinaChess/chinaChess.iml" />
       <module fileurl="file://$PROJECT_DIR$/design_model/design_model.iml" filepath="$PROJECT_DIR$/design_model/design_model.iml" />
       <module fileurl="file://$PROJECT_DIR$/java_learn.iml" filepath="$PROJECT_DIR$/java_learn.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shiro_learn/shiro_learn.iml" filepath="$PROJECT_DIR$/shiro_learn/shiro_learn.iml" />
       <module fileurl="file://$PROJECT_DIR$/socket/socket.iml" filepath="$PROJECT_DIR$/socket/socket.iml" />
       <module fileurl="file://$PROJECT_DIR$/springboot/springboot.iml" filepath="$PROJECT_DIR$/springboot/springboot.iml" />
     </modules>
