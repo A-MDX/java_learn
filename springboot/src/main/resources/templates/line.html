@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>java行数统计</title>
+    <link rel="stylesheet" type="text/css" media="all" 
+          href="../static/js/bootstrap/dist/css/bootstrap.css" 
+          th:href="@{/js/bootstrap/dist/css/bootstrap.css}"/>
+</head>
+<body>
+    <!--/*@thymesVar id="name" type="java.lang.String"*/-->
+    <h2 th:text="|Hello, ${name}|"></h2>
+    <table class="table table-hover table-condensed table-striped">
+        <thead>
+            <th>编号</th>
+            <th>统计时间</th>
+            <th>总文件数</th>
+            <th>总行数</th>
+            <th>较上次增加文件数</th>
+            <th>较上次增加行数</th>
+            <th>创建者</th>
+        </thead>
+        <!--/*@thymesVar id="result" type="madx.entity.Result"*/-->
+        <tbody th:if="${result.code} == 50">
+            <!--/*@thymesVar id="content" type="madx.entity.PageQueryPO"*/-->
+            <tr th:each="line : ${result.data.content}">
+                
+                <td th:text="${line.id}"></td>
+                <td th:text="${line.creation_time_str}"></td>
+                <td th:text="${line.file_num}"></td>
+                <td th:text="${line.line_num}"></td>
+                <td th:text="${line.num_than_provious}"></td>
+                <td th:text="${line.line_than_provious}"></td>
+                <td th:text="${line.creator}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

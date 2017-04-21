@@ -556,56 +556,56 @@ import java.util.ArrayList;
    
  }
 
-   public static void main(String[] args) {
-     // TODO Auto-generated method stub
-	 //GenPO d2j = new GenPO(true);
-	 GenPO d2j = new GenPO(
-			// driver
-			 "com.mysql.jdbc.Driver",
-			//url
-			 "jdbc:mysql://localhost:3306/madx?useUnicode=true&characterEncoding=utf-8" ,
-			 //userName
-			 "root" ,
-			 //password
-			 "9295" ,
-			 //tableName,
-			 "eat_type;eat_list",
-			// + ";tm_account;tt_account_change;ti_chanj_callback_status;tm_account_type;ti_chanj_get_status",
-			 //tableMatchPattern
-			 "false",
-			 // matchPattern
-			 ""
-			);
-     System.out.println(d2j.getDriver());
-     System.out.println(d2j.getUrl());
-     System.out.println(d2j.getUserName());
-     System.out.println(d2j.getPassword());
-     System.out.println(d2j.getTableName());
-     System.out.println(d2j.getTableMatchPattern());
-     System.out.println(d2j.getMatchPattern());
-     d2j.init(StaticVar.OBJECTTYPE);
-     //d2j.init(StaticVar.COMMONLYTYPE);
-/*     GenPO  d2j2 = new GenPO(
- 			// driver
- 			 "com.mysql.jdbc.Driver",
- 			//url
- 			 "jdbc:mysql://127.0.0.1:3306/d_saas?useUnicode=true&characterEncoding=utf-8" ,
- 			 //userName
- 			 "root" ,
- 			 //password
- 			 "1qazxsw2" ,
- 			 //tableName,
- 			 "tm_fix_code",
- 			 //tableMatchPattern
- 			 "false",
- 			 // matchPattern
- 			 ""
- 			);
-     String sql="select code from tm_fix_code";
-     d2j2.initVO(StaticVar.OBJECTTYPE,sql);*/
-     
-     System.out.println("OK");
- }
+//   public static void main(String[] args) {
+//     // TODO Auto-generated method stub
+//	 //GenPO d2j = new GenPO(true);
+//	 GenPO d2j = new GenPO(
+//			// driver
+//			 "com.mysql.jdbc.Driver",
+//			//url
+//			 "jdbc:mysql://localhost:3306/madx?useUnicode=true&characterEncoding=utf-8" ,
+//			 //userName
+//			 "root" ,
+//			 //password
+//			 "9295" ,
+//			 //tableName,
+//			 "eat_type;eat_list",
+//			// + ";tm_account;tt_account_change;ti_chanj_callback_status;tm_account_type;ti_chanj_get_status",
+//			 //tableMatchPattern
+//			 "false",
+//			 // matchPattern
+//			 ""
+//			);
+//     System.out.println(d2j.getDriver());
+//     System.out.println(d2j.getUrl());
+//     System.out.println(d2j.getUserName());
+//     System.out.println(d2j.getPassword());
+//     System.out.println(d2j.getTableName());
+//     System.out.println(d2j.getTableMatchPattern());
+//     System.out.println(d2j.getMatchPattern());
+//     d2j.init(StaticVar.OBJECTTYPE);
+//     //d2j.init(StaticVar.COMMONLYTYPE);
+///*     GenPO  d2j2 = new GenPO(
+// 			// driver
+// 			 "com.mysql.jdbc.Driver",
+// 			//url
+// 			 "jdbc:mysql://127.0.0.1:3306/d_saas?useUnicode=true&characterEncoding=utf-8" ,
+// 			 //userName
+// 			 "root" ,
+// 			 //password
+// 			 "1qazxsw2" ,
+// 			 //tableName,
+// 			 "tm_fix_code",
+// 			 //tableMatchPattern
+// 			 "false",
+// 			 // matchPattern
+// 			 ""
+// 			);
+//     String sql="select code from tm_fix_code";
+//     d2j2.initVO(StaticVar.OBJECTTYPE,sql);*/
+//     
+//     System.out.println("OK");
+// }
  
  
 

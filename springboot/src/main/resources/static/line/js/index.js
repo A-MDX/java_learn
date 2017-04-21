@@ -26,7 +26,12 @@ $(function () {
                     data : {'userid':userid},
                     type : 'get',
                     dataType : 'json',
+                    timeout:10000,//超时时间设置为10秒；
+                    beforeSend:function(){
+                        $('#loadDialog').show();
+                    },
                     success : function (data) {
+                        $('#loadDialog').hide();
                         console.log(data);
                       if (data.code != result.success){
                           jInfo("统计失败。"+data.msg,info.danger);
@@ -37,7 +42,7 @@ $(function () {
 
                           swal({
                               title: "Success!",
-                              text: "这里是统计结果:\n" +
+                              text: "<p style='font-family: \"微软雅黑\";'>这里是统计结果:\n" +
                               "当前用户名称 ：<span style='color:red;'>"+data['user_name']+"</span><br>" +
                               "当前文件数目 ：<span style='color:red;'>"+data['java_file']+"</span><br>" +
                               "当前java行数 ：<span style='color:red;'>"+data['java_line']+"</span>",

@@ -8,7 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="annotation" />
         <module name="design_model" />
-        <module name="learnEveryday" />
+        <module name="shiro_learn" />
         <module name="socket" />
         <module name="springboot" />
       </profile>
@@ -16,9 +16,9 @@
     <bytecodeTargetLevel>
       <module name="annotation" target="1.5" />
       <module name="design_model" target="1.5" />
-      <module name="learnEveryday" target="1.8" />
+      <module name="shiro_learn" target="1.5" />
       <module name="socket" target="1.5" />
-      <module name="springboot" target="1.8" />
+      <module name="springboot" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>
