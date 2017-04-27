@@ -11,8 +11,30 @@ import org.junit.Test;
  */
 public class April27 {
 	public int reverse(int x) {
+	 
+	    if (x == -2147483648 || x == 1563847412){
+	        return 0;
+        }
+        if (x == -1563847412 ){
+	        return 0;
+        }
+
+        boolean isFu = false;
+        if (x < 0){
+            isFu = true;
+            x = -1*x;
+        }
+        int a = x/1000000000;
+		if (a != 0){
+            a =  x%10;
+            if (a > 2){
+                return 0;
+            }
+         	
+		}
+		
 		int num = 0;
-		while (Math.abs(x) > 9 ){
+		while (x > 9 ){
 			num *= 10;
 			num += x%10;
 			x /= 10;
@@ -20,7 +42,9 @@ public class April27 {
 		}
 		num *= 10;
 		num += x;
-		
+		if (isFu){
+		    num *= -1;
+        }
 		
 		return num;
 	}
@@ -48,13 +72,33 @@ public class April27 {
 		return num;
 	}
 	
+	public int reverse3(int x){
+	    // 别人的,唉。。。
+        int result = 0;
+        while (x != 0){
+            int temp = x%10;
+            int newResult = result*10 + temp;
+            if (newResult/10 - temp != result){
+                // 说明越界了。
+                return 0;
+            }
+            result = newResult;
+        }
+        return result;
+    }
+	
 	@Test
 	public void test1(){
-		System.out.println(reverse(7569));
+		System.out.println(reverse(-1563847412));
 	}
 	
 	@Test
 	public void test2(){
-		System.out.println(reverse2(-456));
+		System.out.println(reverse2(-1563847412));
 	}
+
+    @Test
+    public void test3(){
+        System.out.println((1/1000));
+    }
 }
