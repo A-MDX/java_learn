@@ -13,18 +13,18 @@ import org.junit.Test;
  * https://leetcode.com/problems/ugly-number/#/description
  * 寻找质数？
  */
-public class May11 {
-    public boolean isUgly(int num) {
-        for (int i = 2; i < 6 && num > 0; i++) {
-            while (num % i == 0) {
-                num /= i;
+    public class May11 {
+        public boolean isUgly(int num) {
+            for (int i = 2; i < 6 && num > 0; i++) {
+                while (num % i == 0) {
+                    num /= i;
+                }
+
             }
-
+            return num == 1;
         }
-        return num == 1;
-    }
 
-    @Test
+        @Test
     public void test1() {
         System.out.println(isUgly(-51799));
     }
