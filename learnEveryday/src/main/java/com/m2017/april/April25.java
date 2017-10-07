@@ -19,6 +19,7 @@ import java.util.List;
  * ]
  * 这个递归用的好难，感觉还是需要学习好久，这次是摘抄别人的
  * Created by A-mdx on 2017/4/25.
+ * https://leetcode.com/problems/generate-parentheses/description/
  */
 public class April25 {
     public List<String> generateParenthesis(int n) {
