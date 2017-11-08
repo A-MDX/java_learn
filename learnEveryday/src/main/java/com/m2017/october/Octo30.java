@@ -30,7 +30,7 @@ public class Octo30 {
         Queue<Integer> nums = new ArrayDeque<>();
         Queue<Character> fus = new ArrayDeque<>();
         Stack<Integer> kuos = new Stack<>();
-
+        // 哈哈，感觉还不错哦，终于 这个能跟随字体了。
         int index = 0;
         if (s.indexOf(index) != '-') {
             fus.add('+');
