@@ -10,12 +10,13 @@ import java.util.*;
  */
 public class December05 implements Map {
     
+    public static final int WHAT_ABOUT_THIS = genRand();
+    
     private static int genRand(){
         Random random = new Random();
         return random.nextInt(100);
     }
     
-    public static final int WHAT_ABOUT_THIS = genRand();
 
     public static void main(String... args) {
         System.out.println("WHAT_ABOUT_THIS:"+WHAT_ABOUT_THIS);
