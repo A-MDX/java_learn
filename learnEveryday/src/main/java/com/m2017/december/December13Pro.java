@@ -27,6 +27,7 @@ class Outer {
         String say() {
             // 这个看着很奇葩
             String str = Outer.this.say();
+            str = Outer.this.say();// ctrl+alt+space 可以直接强转 
             System.out.println(str);
             return "Hi, I'm inner...";
         }
