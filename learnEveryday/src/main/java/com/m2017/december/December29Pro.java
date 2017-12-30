@@ -45,11 +45,11 @@ public class December29Pro {
         System.out.println(c.getSimpleName());
         System.out.println(c.getCanonicalName());
         System.out.println(c.getPackageName());
-
+        
         System.out.println(book);
-
+        
         System.out.println("---------------------");
-
+        
         // java.lang.IllegalAccessException：class com.m2017.december.December29Pro
         // cannot access a member of class com.m2017.december.December29Pro$$Lambda$39/1859039536 with modifiers "private"
         // 匿名类看来不准 实现了。
