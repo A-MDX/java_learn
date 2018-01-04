@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * Create by A-mdx at 2018/1/3 23:19
@@ -12,6 +14,9 @@ public class WechatTiao {
     private JPanel tiao;
     private JLabel syso1;
     private JLabel img1;
+
+    private IndexClick indexClick1;
+    private IndexClick indexClick2;
 
 
     public WechatTiao() {
@@ -22,49 +27,76 @@ public class WechatTiao {
                 int x = e.getX();
                 int y = e.getY();
                 System.out.println("x:" + x + "  y:" + y);
-
-                ImageIcon icon = new ImageIcon("C:\\Users\\63418\\Desktop\\hehe\\p.jpg");
-                icon.setImage(icon.getImage().getScaledInstance(432, 768, Image.SCALE_DEFAULT));
-                img1.setIcon(icon);
+                if (indexClick1 == null) {
+                    indexClick1 = new IndexClick(x, y);
+                } else {
+                    indexClick2 = new IndexClick(x, y);
+                    doCal();
+                }
+//                ImageIcon icon = new ImageIcon("C:\\Users\\63418\\Desktop\\hehe\\p.jpg");
+//                icon.setImage(icon.getImage().getScaledInstance(432, 768, Image.SCALE_DEFAULT));
+//                img1.setIcon(icon);
             }
 
         });
 
 
-        ImageIcon icon = new ImageIcon("C:\\Users\\63418\\Desktop\\hehe\\m.png");
+        sendShellOrder(screenCap);
+        sendShellOrder(pullScreen);
+        ImageIcon icon = new ImageIcon("C:\\Users\\63418\\Desktop\\hehe\\1.png");
         icon.setImage(icon.getImage().getScaledInstance(432, 768, Image.SCALE_DEFAULT));
         img1.setIcon(icon);
-        img1.setText("what fuck....");
         img1.setBounds(10, 10, 10, 10);
+
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    private final String pressOrder = "adb shell input touchscreen swipe 170 187 170 187 ";
+    private final String screenCap = "adb shell screencap -p /sdcard/mi/1.png";
+    private final String pullScreen = "adb pull /sdcard/mi/1.png C:\\Users\\63418\\Desktop\\hehe";
 
-        WechatTiao wechatTiao = new WechatTiao();
+    private void doCal() {
+        // 1. 计算距离
+        int a = Math.abs(indexClick1.y - indexClick2.y);
+        int b = Math.abs(indexClick1.x - indexClick2.y);
+        int c = (a + b);
+        System.out.println("a:" + a + " - b:" + b);
+        System.out.println("开始计算:" + c);
+        syso1.setText("开始计算 需要按压时间:" + c);
 
-        JFrame frame = new JFrame("WechatTiao");
-//        {
-//            ImageIcon imageIcon = new ImageIcon("C:\\Users\\63418\\Desktop\\hehe\\m.png");
-////            Image image = getToolkit().createImage("C:\\Users\\63418\\Desktop\\hehe\\m.png");
-//
-//            @Override
-//            public void paint(Graphics g) {
-//                imageIcon.setImage(imageIcon.getImage().getScaledInstance(540, 960, Image.SCALE_DEFAULT));
-////                System.out.println(image2.getWidth(null) + "  " + image2.getHeight(null));
-//                getGraphics().drawImage(imageIcon.getImage(), 0, 0, this);
-//            }
-//        };
-        frame.setContentPane(wechatTiao.tiao);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setSize(540, 960);
+        // 2. 计算需要按压时间
+        int time = (int) (c * 2);
 
+        // 3. 发送按压命令
+        sendShellOrder(pressOrder + time);
 
-        frame.setLocationRelativeTo(wechatTiao.tiao);
-        wechatTiao.syso1.setText("fuck....");
-        frame.setVisible(true);
+        try {
+            // 跳完才行啊
+            Thread.sleep(800);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // 4. 截屏+上传保存
+        sendShellOrder(screenCap);
+        sendShellOrder(pullScreen);
 
+        // 5. 刷新
+        ImageIcon icon = new ImageIcon("C:\\Users\\63418\\Desktop\\hehe\\1.png");
+        icon.setImage(icon.getImage().getScaledInstance(432, 768, Image.SCALE_DEFAULT));
+        img1.setIcon(icon);
 
+        // 6. 清除
+        indexClick2 = null;
+        indexClick1 = null;
+
+    }
+
+    private static void sendShellOrder(String order) {
+        try {
+            Process process = Runtime.getRuntime().exec(" C:\\program1\\platform-tools\\" + order);
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     {
@@ -98,4 +130,44 @@ public class WechatTiao {
     public JComponent $$$getRootComponent$$$() {
         return tiao;
     }
+
+    static class IndexClick {
+        int x;
+        int y;
+
+        public IndexClick(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+
+        WechatTiao wechatTiao = new WechatTiao();
+
+        JFrame frame = new JFrame("WechatTiao");
+//        {
+//            ImageIcon imageIcon = new ImageIcon("C:\\Users\\63418\\Desktop\\hehe\\m.png");
+////            Image image = getToolkit().createImage("C:\\Users\\63418\\Desktop\\hehe\\m.png");
+//
+//            @Override
+//            public void paint(Graphics g) {
+//                imageIcon.setImage(imageIcon.getImage().getScaledInstance(540, 960, Image.SCALE_DEFAULT));
+////                System.out.println(image2.getWidth(null) + "  " + image2.getHeight(null));
+//                getGraphics().drawImage(imageIcon.getImage(), 0, 0, this);
+//            }
+//        };
+        frame.setContentPane(wechatTiao.tiao);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setSize(540, 960);
+
+
+        frame.setLocationRelativeTo(wechatTiao.tiao);
+        wechatTiao.syso1.setText("fuck....");
+        frame.setVisible(true);
+
+
+    }
+
 }

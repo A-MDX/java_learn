@@ -25,6 +25,13 @@ public class January01Pro {
         }
     }
 
+    @Test
+    public void test2() {
+        int a = 100;
+        int b = 237;
+        System.out.println(Math.sqrt(a*a + b*b));
+    }
+
     private int i;
 
     private String name;
@@ -35,9 +42,13 @@ public class January01Pro {
         return source.replaceAll("\\w+\\.", "");
     }
 
-    public January01Pro(int a) {
-        System.out.println("a : " + a);
+    public January01Pro(){
+        
     }
+    
+//    public January01Pro(int a) {
+//        System.out.println("a : " + a);
+//    }
 
     public static void main(String... args) throws ClassNotFoundException {
         Class c = Class.forName("com.m2018.january.January01Pro");
