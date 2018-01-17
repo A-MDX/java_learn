@@ -75,8 +75,6 @@ public class January17 {
 
 
         pathSum(root, 22).forEach(System.out::println);
-
-
     }
 
 }
