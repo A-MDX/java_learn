@@ -6,7 +6,7 @@ import java.util.*;
  * 今天主要想着自己实现一个 hashMap
  * Create by A-mdx at 2018-01-18 00:30
  */
-public class Junary17Pro<K, V> extends AbstractMap<K, V> {
+public class January17Pro<K, V> extends AbstractMap<K, V> {
 
     final int linkSize = 1024;
     LinkedList<SimpleEntry<K, V>>[] entrys = new LinkedList[linkSize];
