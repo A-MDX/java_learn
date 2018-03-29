@@ -20,17 +20,69 @@ public class AllSorts {
 
     }
 
+    @Test
+    public void test2() {
+        int[] arr = {0,7, 5, 6, 3, 9, 1, 4, 2};
+        quickSort(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+
+    /**
+     * 快速排序
+     * @param arr
+     */
+    public void quickSort(int[] arr) {
+        quickSort(arr, 0, arr.length - 1);
+    }
+
+    private static void quickSort(int[] arr, int left, int right) {
+        if (right - left == 0) {
+            return;
+        } else if (right - left == 1) {
+            if (arr[left] > arr[right]) {
+                swap(arr, left, right);
+            }
+            return;
+        }
+        int temp = arr[left];  // 基准
+        int i = left + 1;
+        int j = right;
+        while (true) {
+            while (arr[j] > temp && j > i) {
+                j--;
+            }
+            while (arr[i] < temp && i < j) {
+                i++;
+            }
+            if (i == j) {
+                // 分裂，将基准放中间
+                swap(arr, left, i);
+                // 左半边
+                quickSort(arr, left, i);
+                // 右半边
+                quickSort(arr, i, right);
+
+                break;
+            } else {
+                swap(arr, i, j);
+                
+            }
+
+        }
+    }
+
     /**
      * 希尔排序，额，算是学习吧
      * 这个有点难
+     *
      * @param arr
      */
     public void shellSort(int[] arr) {
         for (int gap = arr.length / 2; gap > 0; gap /= 2) {
             for (int i = gap; i < arr.length; i++) {
                 int j = i;
-                while (j - gap >= 0 && arr[j] < arr[j-gap]){
-                    swap(arr, j, j-gap);
+                while (j - gap >= 0 && arr[j] < arr[j - gap]) {
+                    swap(arr, j, j - gap);
                     j -= gap;
                 }
             }
