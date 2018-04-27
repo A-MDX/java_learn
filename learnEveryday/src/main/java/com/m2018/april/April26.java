@@ -53,6 +53,7 @@ public class April26 {
             if (left.val != right.val) {
                 return false;
             }
+            // 这个地方，绝了。。
             queue.offer(left.left);
             queue.offer(right.right);
 
